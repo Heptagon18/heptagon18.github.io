@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 与蛋白质结构 · AlphaFold 与 RoseTTAFold</title>
+<meta name="description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题：AlphaFold 与 RoseTTAFold 的原理、发展与应用。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23002060'/><circle cx='32' cy='32' r='15' fill='none' stroke='%23fff' stroke-width='4' stroke-dasharray='70 30'/></svg>">
+<meta name="theme-color" content="#002060">
+<meta property="og:title" content="AI 与蛋白质结构 · AlphaFold 与 RoseTTAFold">
+<meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<div id="progress"></div>
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="index.html"><i></i><span>AI 与蛋白质结构<small>ALPHAFOLD · ROSETTAFOLD</small></span></a>
+    <nav class="main">
+      <a href="ch1.html">结构基础</a>
+      <a href="ch2.html">AlphaFold</a>
+      <a href="ch3.html">RoseTTAFold</a>
+      <a href="ch4.html">未来与反思</a>
+      <a href="resources.html">资源</a>
+      <a href="references.html">文献</a>
+      <a href="quiz.html">自测</a>
+    </nav>
+    <button id="menuBtn" aria-label="展开目录" aria-expanded="false">☰</button>
+    <span class="pct" id="pct">0%</span>
+    <div class="searchwrap">
+      <input id="q" type="search" placeholder="搜索：CASP / pLDDT / RFdiffusion" aria-label="站内搜索">
+      <div id="hits"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="glow"></div>
+
+  <svg class="hero-art" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="rib" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1f6fb2"/><stop offset="1" stop-color="#117f86"/>
+      </linearGradient>
+      <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#002060" stop-opacity=".16"/>
+        <stop offset="1" stop-color="#002060" stop-opacity="0"/>
+      </linearGradient>
+      <filter id="soft"><feGaussianBlur stdDeviation="7"/></filter>
+    </defs>
+    <circle cx="330" cy="200" r="150" stroke="#c9d8ea" stroke-dasharray="3 7"/>
+    <circle cx="330" cy="200" r="106" stroke="#dbe3ee"/>
+    <path d="M120 300 C190 250 210 190 300 170 C380 152 400 110 470 96"
+          stroke="url(#rib)" stroke-width="14" stroke-linecap="round" opacity=".85"/>
+    <path d="M120 300 C190 250 210 190 300 170 C380 152 400 110 470 96"
+          stroke="#fff" stroke-width="4" stroke-dasharray="2 12" stroke-linecap="round" opacity=".9"/>
+    <g class="nodes" fill="#002060">
+      <circle cx="152" cy="284" r="6"/><circle cx="214" cy="222" r="5"/>
+      <circle cx="300" cy="170" r="7"/><circle cx="378" cy="140" r="5"/>
+      <circle cx="444" cy="108" r="6"/>
+    </g>
+    <g stroke="#1f6fb2" stroke-opacity=".35">
+      <path d="M152 284 L300 170"/><path d="M214 222 L300 170"/>
+      <path d="M378 140 L300 170"/><path d="M444 108 L378 140"/>
+    </g>
+    <g font-family="Cascadia Mono, monospace" font-size="11" fill="#5b6b82">
+      <text x="96" y="330">1D · MSA</text>
+      <text x="284" y="150">2D · PAIR</text>
+      <text x="430" y="88">3D · XYZ</text>
+    </g>
+  </svg>
+
+    <div class="kicker">科学与社会 · 课程专题</div>
+    <h1>AI 与蛋白质结构</h1>
+    <h2>——AlphaFold 和 RoseTTAFold</h2>
+    <p class="lead">半个世纪以来，结构生物学依靠 X 射线、核磁共振与冷冻电镜一点点积累“序列—结构”的对应关系；深度学习把这一步变成了可计算的推理，又进一步把推理变成设计。这个站点把一条完整的技术线索拆成四章，每一章都可以点击、拖动、逐题检验。</p>
+    <div class="cta">
+      <a class="btn primary" href="ch1.html">从头开始读 →</a>
+      <a class="btn ghost" href="#chapters">看四章结构</a>
+      <a class="btn ghost" href="quiz.html">直接做题</a>
+    </div>
+    <div class="facts">
+      <div class="fact reveal"><b>92.4</b><span>AlphaFold2 在 CASP14 的中位 GDT</span></div>
+      <div class="fact reveal"><b>0.96 Å</b><span>CASP14 中位主链误差（次优约 2.8 Å）</span></div>
+      <div class="fact reveal"><b>2 亿+</b><span>AlphaFold 数据库已公开的结构</span></div>
+      <div class="fact reveal"><b>6.17 亿</b><span>ESM 宏基因组图谱中的序列数</span></div>
+    </div>
+  </section>
+
+  <section id="chapters" style="padding:38px 0 10px">
+    <h2 style="font-size:24px">四章结构</h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:6px">按“实验基础 → AlphaFold → RoseTTAFold → 展望”的顺序组织；每章内部遵循“原理—发展—应用”。</p>
+    <div class="cards">
+      <a class="card-link reveal" href="ch1.html">
+        <span class="n">01 / FOUNDATION</span>
+        <h3>结构研究的基础</h3>
+        <p>蛋白质结构为什么决定功能；三类实验方法各自的原理、进展与局限；它们共享的“样品”瓶颈。</p>
+        <span class="go">阅读本章 →</span>
+      </a>
+      <a class="card-link reveal" href="ch2.html">
+        <span class="n">02 / ALPHAFOLD</span>
+        <h3>AlphaFold 的原理、发展与应用</h3>
+        <p>从 CASP 盲测到端到端网络：Evoformer 双轨表示、结构模块、自蒸馏与循环迭代；pLDDT 判读器可即时试用。</p>
+        <span class="go">阅读本章 →</span>
+      </a>
+      <a class="card-link reveal" href="ch3.html">
+        <span class="n">03 / ROSETTAFOLD</span>
+        <h3>RoseTTAFold 的原理、发展与应用</h3>
+        <p>三轨网络如何让坐标参与中间层；RFdiffusion 如何把预测变成生成；All-Atom 如何把核酸、金属与小分子纳入同一框架。</p>
+        <span class="go">阅读本章 →</span>
+      </a>
+      <a class="card-link reveal" href="ch4.html">
+        <span class="n">04 / OUTLOOK</span>
+        <h3>未来与反思</h3>
+        <p>复合物、无序区与配体仍未解决；语言模型正在摆脱 MSA 依赖；开放性与双重用途成为新的议题。</p>
+        <span class="go">阅读本章 →</span>
+      </a>
+    </div>
+  </section>
+
+  <section style="padding:14px 0 30px">
+    <div class="grid3">
+      <div class="card reveal">
+        <h4>三个可动手的地方</h4>
+        <p>2.2 的 pLDDT 判读器、3.1 的三轨示意图、3.2 的去噪演示——都支持点击与拖动。</p>
+      </div>
+      <div class="card reveal">
+        <h4>数字都有出处</h4>
+        <p>正文以上标标注文献编号，13 条参考文献可在“文献”页按语种筛选并展开要点。</p>
+      </div>
+      <div class="card reveal">
+        <h4>读完可以自测</h4>
+        <p>五道题覆盖关键数字与判断边界，提交后给出逐题解析。</p>
+      </div>
+    </div>
+    <div class="note reveal">
+      阅读顺序建议：先看第一章理解“为什么难”，再看第二章理解“为什么能”，第三章对比技术路线，第四章讨论“还差什么、要注意什么”。
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="in">
+    <span>《AI 与蛋白质结构——AlphaFold 和 RoseTTAFold》课程报告改编</span>
+    <span>图表引自公开文献，出处见图注；<a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">站点源码</a></span>
+  </div>
+</footer>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/widgets.js"></script>
+<button id="fab" aria-label="回到顶部">↑</button>
+</body>
+</html>

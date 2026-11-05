@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>heptagon · 站点索引</title>
+<meta name="theme-color" content="#002060">
+<link rel="stylesheet" href="alphafold/assets/css/site.css">
+<style>
+  .hub{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 22px;position:relative;overflow:hidden}
+  .hub .glow{position:absolute;width:760px;height:760px;border-radius:50%;right:-220px;top:-260px;
+    background:radial-gradient(circle at center,rgba(31,111,178,.16),rgba(31,111,178,0) 62%);pointer-events:none}
+  .panel{max-width:920px;width:100%;position:relative}
+  .panel .kicker{font-size:12px;letter-spacing:3px;color:var(--blue);font-weight:800}
+  .panel h1{font-size:46px;line-height:1.14;margin:14px 0 10px;letter-spacing:-.5px}
+  .panel p.lead{color:var(--muted);font-size:16px;max-width:640px}
+  .entry{
+    display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:34px;
+    background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 28px;text-decoration:none;
+    color:inherit;transition:.2s;box-shadow:0 10px 30px rgba(0,32,96,.06);
+  }
+  .entry:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#c6d7ea;text-decoration:none}
+  .entry .t{font-size:13px;color:var(--blue);font-family:var(--mono)}
+  .entry h2{font-size:23px;margin:6px 0 6px}
+  .entry p{margin:0;color:var(--muted);font-size:13.5px}
+  .entry .arrow{font-size:26px;color:var(--blue);transition:.2s}
+  .entry:hover .arrow{transform:translateX(6px)}
+  .meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;font-size:12.5px;color:var(--muted)}
+  .meta a{color:var(--blue)}
+  @media (max-width:720px){.panel h1{font-size:32px}.entry{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="hub">
+  <div class="glow"></div>
+  <div class="panel">
+    <div class="kicker">HEPTAGON · SITE INDEX</div>
+    <h1>heptagon</h1>
+    <p class="lead">这里存放几个静态站点。当前主要项目是基于课程报告改编的交互式专题《AI 与蛋白质结构——AlphaFold 和 RoseTTAFold》。</p>
+
+    <a class="entry" href="alphafold/">
+      <div>
+        <div class="t">/alphafold/</div>
+        <h2>AI 与蛋白质结构 · 交互式专题</h2>
+        <p>四章内容 + pLDDT 判读器、三轨交互图、RFdiffusion 去噪演示、ESM 规模滑块、文献检索与自测。</p>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+
+    <div class="meta">
+      <span><a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">GitHub 仓库</a></span>
+      <span>静态页面 · 无需后端</span>
+      <span>最后更新：2026-11</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

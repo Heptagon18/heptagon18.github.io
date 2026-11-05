@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>资源导航 · AI 与蛋白质结构</title>
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<div id="progress"></div>
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="index.html"><i></i><span>AI 与蛋白质结构<small>ALPHAFOLD · ROSETTAFOLD</small></span></a>
+    <nav class="main">
+      <a href="ch1.html">结构基础</a>
+      <a href="ch2.html">AlphaFold</a>
+      <a href="ch3.html">RoseTTAFold</a>
+      <a href="ch4.html">未来与反思</a>
+      <a href="resources.html">资源</a>
+      <a href="references.html">文献</a>
+      <a href="quiz.html">自测</a>
+    </nav>
+    <button id="menuBtn" aria-label="展开目录" aria-expanded="false">☰</button>
+    <span class="pct" id="pct">0%</span>
+    <div class="searchwrap">
+      <input id="q" type="search" placeholder="搜索：CASP / pLDDT / RFdiffusion" aria-label="站内搜索">
+      <div id="hits"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="crumb"><a href="index.html">首页</a> / 资源导航</div>
+  <div class="page-head">
+    <div class="kicker">RESOURCES</div>
+    <h1>资源导航</h1>
+    <p>报告里提到的数据库、代码与平台，都可以从这里直接跳转。凡是公开可访问的链接，均以官方入口为准。</p>
+  </div>
+
+  <div class="layout">
+    <article>
+      <section class="sec" id="data" style="padding-top:6px">
+        <h2><span class="num">A</span>数据库与平台</h2>
+        <div class="res-grid">
+      <a class="res reveal" href="https://alphafold.ebi.ac.uk/" target="_blank" rel="noopener">
+        <span class="tag">AFDB</span>
+        <h3>AlphaFold 蛋白质结构数据库</h3>
+        <p>2 亿余条预测结构，按 UniProt 编号检索；提供 pLDDT 与 PAE 图。</p>
+        <span class="link">alphafold.ebi.ac.uk ↗</span>
+      </a>
+      <a class="res reveal" href="https://www.rcsb.org/" target="_blank" rel="noopener">
+        <span class="tag">PDB</span>
+        <h3>RCSB PDB</h3>
+        <p>实验解析结构的权威库，可按序列、配体、方法检索，也是训练数据的来源。</p>
+        <span class="link">rcsb.org ↗</span>
+      </a>
+      <a class="res reveal" href="https://www.uniprot.org/" target="_blank" rel="noopener">
+        <span class="tag">序列</span>
+        <h3>UniProt</h3>
+        <p>蛋白序列与功能注释的参考数据库，AFDB 的检索入口即基于 UniProt 编号。</p>
+        <span class="link">uniprot.org ↗</span>
+      </a>
+      <a class="res reveal" href="https://predictioncenter.org/" target="_blank" rel="noopener">
+        <span class="tag">评估</span>
+        <h3>CASP 预测中心</h3>
+        <p>两年一届的盲测评估，历届结果与评测指标是判断方法水平的基准。</p>
+        <span class="link">predictioncenter.org ↗</span>
+      </a>
+      <a class="res reveal" href="https://github.com/google-deepmind/alphafold" target="_blank" rel="noopener">
+        <span class="tag">代码</span>
+        <h3>AlphaFold 开源实现</h3>
+        <p>AlphaFold2 推理代码与模型权重，可在本地 GPU 上复现。</p>
+        <span class="link">github.com/google-deepmind/alphafold ↗</span>
+      </a>
+      <a class="res reveal" href="https://github.com/RosettaCommons/RoseTTAFold" target="_blank" rel="noopener">
+        <span class="tag">代码</span>
+        <h3>RoseTTAFold</h3>
+        <p>三轨网络实现，附带服务器使用说明与示例脚本。</p>
+        <span class="link">github.com/RosettaCommons/RoseTTAFold ↗</span>
+      </a>
+      <a class="res reveal" href="https://github.com/RosettaCommons/RFdiffusion" target="_blank" rel="noopener">
+        <span class="tag">设计</span>
+        <h3>RFdiffusion</h3>
+        <p>以扩散模型做骨架设计，可按对称性、结合靶标与基序条件生成。</p>
+        <span class="link">github.com/RosettaCommons/RFdiffusion ↗</span>
+      </a>
+      <a class="res reveal" href="https://github.com/baker-laboratory/RoseTTAFold-All-Atom" target="_blank" rel="noopener">
+        <span class="tag">全原子</span>
+        <h3>RoseTTAFold All-Atom</h3>
+        <p>全原子版本，支持核酸、金属、小分子与共价修饰的建模。</p>
+        <span class="link">github.com/baker-laboratory/RoseTTAFold-All-Atom ↗</span>
+      </a>
+      <a class="res reveal" href="https://github.com/sokrypton/ColabFold" target="_blank" rel="noopener">
+        <span class="tag">工具</span>
+        <h3>ColabFold</h3>
+        <p>把 MSA 搜索与结构预测打包成轻量流程，适合快速上手与教学演示。</p>
+        <span class="link">github.com/sokrypton/ColabFold ↗</span>
+      </a>
+      <a class="res reveal" href="https://esmatlas.com/" target="_blank" rel="noopener">
+        <span class="tag">语言模型</span>
+        <h3>ESM 宏基因组图谱</h3>
+        <p>6 亿余条宏基因组序列的结构预测，可交互浏览低同源蛋白的折叠空间。</p>
+        <span class="link">esmatlas.com ↗</span>
+      </a>
+      <a class="res reveal" href="https://www.bakerlab.org/" target="_blank" rel="noopener">
+        <span class="tag">实验室</span>
+        <h3>Baker Lab</h3>
+        <p>蛋白质设计与 RoseTTAFold 系列的策源地，含大量可下载的设计工具。</p>
+        <span class="link">bakerlab.org ↗</span>
+      </a>
+        </div>
+        <div class="note" style="margin-top:24px">提示：AlphaFold 数据库按 UniProt 编号组织，检索时先用 <a href="https://www.uniprot.org/" target="_blank" rel="noopener">UniProt</a> 确认编号，或直接用基因名检索。</div>
+      </section>
+
+      <div class="pager">
+        <a href="ch4.html"><small>上一章</small><b>← 未来与反思</b></a>
+        <a class="next" href="references.html"><small>下一步</small><b>参考文献 →</b></a>
+      </div>
+    </article>
+
+    <aside class="rail">
+      <h5>本页</h5>
+      <a href="#data">资源列表</a>
+      <h5 style="margin-top:22px">章节</h5>
+      <a href="ch1.html">01　结构基础</a>
+      <a href="ch2.html">02　AlphaFold</a>
+      <a href="ch3.html">03　RoseTTAFold</a>
+      <a href="ch4.html">04　未来与反思</a>
+      <a href="references.html">参考文献</a>
+      <a href="quiz.html">自测</a>
+    </aside>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="in">
+    <span>《AI 与蛋白质结构——AlphaFold 和 RoseTTAFold》课程报告改编</span>
+    <span>外部链接均指向官方站点 · <a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">站点源码</a></span>
+  </div>
+</footer>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/widgets.js"></script>
+</body>
+</html>

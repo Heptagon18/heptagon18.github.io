@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 AlphaFold · AI 与蛋白质结构</title>
+<meta name="theme-color" content="#002060">
+<meta property="og:title" content="AI 与蛋白质结构 · AlphaFold 与 RoseTTAFold">
+<meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<div id="progress"></div>
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="index.html"><i></i><span>AI 与蛋白质结构<small>ALPHAFOLD · ROSETTAFOLD</small></span></a>
+    <nav class="main">
+      <a href="ch1.html">结构基础</a>
+      <a href="ch2.html">AlphaFold</a>
+      <a href="ch3.html">RoseTTAFold</a>
+      <a href="ch4.html">未来与反思</a>
+      <a href="resources.html">资源</a>
+      <a href="references.html">文献</a>
+      <a href="quiz.html">自测</a>
+    </nav>
+    <button id="menuBtn" aria-label="展开目录" aria-expanded="false">☰</button>
+    <span class="pct" id="pct">0%</span>
+    <div class="searchwrap">
+      <input id="q" type="search" placeholder="搜索：CASP / pLDDT / RFdiffusion" aria-label="站内搜索">
+      <div id="hits"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="crumb"><a href="index.html">首页</a> / 第二章</div>
+  <div class="page-head">
+    <div class="kicker">CHAPTER 02</div>
+    <h1>AlphaFold：原理、发展与应用</h1>
+    <p>AlphaFold2 的突破并非单一技巧，而是多序列比对、注意力机制、端到端训练与迭代优化共同作用的结果；理解其构成，才可能理解它的边界。</p>
+  </div>
+
+  <div class="takeaway reveal">
+    <b>本章要点</b>
+    <ul><li>AlphaFold2 = 双轨表示（MSA + 残基对）+ 结构模块 + 三轮回环。</li><li>自蒸馏与 recycling 是在实验数据受限时的训练策略，而非新数据来源。</li><li>pLDDT 与 PAE 是使用模型的前提：先判断可信度，再谈结论。</li></ul>
+  </div>
+
+  <div class="layout">
+    <article>
+      <section class="sec" id="s21">
+        <h2><span class="num">2.1</span>预测问题的由来</h2>
+        <div class="sub">从 Anfinsen 法则（序列决定结构）到 <a href="https://predictioncenter.org/" target="_blank" rel="noopener">CASP 盲测体系</a>，计算预测走过了半个世纪。</div>
+        <div class="grid2 narrow">
+          <div class="timeline reveal" id="timeline"></div>
+          <div class="tl-body reveal" id="tlBody"></div>
+        </div>
+      </section>
+
+      <section class="sec" id="s22">
+        <h2><span class="num">2.2</span>原理</h2>
+        <div class="sub">两条信息流、一个结构模块、三轮回环——以及一套自评置信度。</div>
+        <figure class="reveal">
+          <div class="frame"><img src="assets/img/af2_arch.png" alt="AlphaFold2 端到端流程"></div>
+          <figcaption><b>图 2-1</b>　AlphaFold2 端到端流程：48 个 Evoformer 区块、8 个结构模块、三轮回环（图片来源：文献 [8] 图 1e）</figcaption>
+        </figure>
+        <div class="grid2" style="margin-top:22px">
+          <div class="card reveal">
+            <h4>两条信息流</h4>
+            <p>MSA 表示（s, r, c）编码同源序列的保守性与协变性；配对表示（r, r, c）编码残基间几何关系。两者在每个区块中反复交换信息<sup class="cite">[8]</sup>。</p>
+          </div>
+          <div class="card reveal">
+            <h4>输出与回环</h4>
+            <p>结构模块以等变注意力直接优化原子坐标，给出逐残基 pLDDT 与残基对 PAE；网络重复三轮 recycling，使序列、距离与坐标逐步自洽<sup class="cite">[8]</sup>。</p>
+          </div>
+        </div>
+
+        <h3 class="sub">2.2.1　MSA 与共演化</h3>
+        <div class="grid2 narrow">
+          <div class="reveal">
+            <p>同一家族的序列在进化中协同变化：若两个残基在空间上相邻，其一突变常伴随另一个的补偿突变。把这种协变关系统计出来，就等于得到一张“远距离接触”的弱约束图谱<sup class="cite">[8]</sup>。</p>
+            <p>MSA 的深度直接决定信号强度：同源序列越多，协变越显著；对孤儿蛋白或人工设计序列，MSA 往往稀疏甚至为空——这也是后来语言模型要解决的问题<sup class="cite">[13]</sup>。</p>
+          </div>
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/af2_overlay.jpg" alt="预测与实验结构叠合"></div>
+            <figcaption><b>图 2-4</b>　预测（蓝）与实验（绿）结构在三个尺度上的叠合（图片来源：文献 [8] 图 1b–d）</figcaption>
+          </figure>
+        </div>
+
+        <h3 class="sub">2.2.2　数据库与训练数据</h3>
+        <div class="grid3">
+          <div class="card reveal"><h4>结构来源</h4><p>PDB 自 1971 年积累，至今约 26 万条实验结构；AlphaFold2 训练集约 17 万条链，以单体为主。</p></div>
+          <div class="card reveal"><h4>自蒸馏</h4><p>约 25% 来自 PDB 已知结构，75% 来自模型预测结构；以带噪但量大的数据训练，让网络学会纠正更难的折叠<sup class="cite">[8]</sup>。</p></div>
+          <div class="card reveal"><h4>循环迭代</h4><p>先给出粗略结构假设，再作为额外输入送回网络重复检验，要求结果同时满足 MSA 与结构约束<sup class="cite">[8]</sup>。</p></div>
+        </div>
+
+        <h3 class="sub">2.2.3　pLDDT 判读器（互动）</h3>
+        <p style="color:var(--muted);font-size:13.6px">pLDDT 是模型自评的局部置信度（0–100）。拖动滑块，看看不同区间该怎么用：</p>
+        <div class="slider-row reveal">
+          <input id="plddt" type="range" min="0" max="100" value="88">
+          <output class="val" id="plddtOut">88</output>
+        </div>
+        <div class="pbar" id="plddtBar"><i style="background:#0a7d5a;width:88%"></i><i style="background:#eef2f8;width:12%"></i></div>
+        <div class="verdict reveal" id="plddtVerdict"></div>
+      </section>
+
+      <section class="sec" id="s23">
+        <h2><span class="num">2.3</span>发展</h2>
+        <div class="sub">从 CASP14 的跃升，到 AF3 的能力扩展。</div>
+        <div class="grid2" style="align-items:center">
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/a_casp.jpg" alt="CASP14 结果"></div>
+            <figcaption><b>图 2-6</b>　CASP14 中各参赛组的中位精度比较（图片来源：文献 [8]）</figcaption>
+          </figure>
+          <div class="reveal">
+            <p>2020 年 CASP14：AlphaFold2 中位 GDT 92.4，主链 Cα r.m.s.d. 0.96 Å（次优约 2.8 Å），全原子精度约 1.5 Å 对次优 3.5 Å 的差距被反超<sup class="cite">[8]</sup>。</p>
+            <p>此后进入版本迭代：AF2 → AF2-Multimer → AF3（2024），能力从单体扩展到核酸、配体与共价修饰<sup class="cite">[10]</sup>；同期 <a href="https://alphafold.ebi.ac.uk/" target="_blank" rel="noopener">AlphaFold 数据库</a>覆盖 2 亿余条结构<sup class="cite">[3,4]</sup>。</p>
+            <div class="note">开放程度的对比值得注意：AF2 代码开源，AF3 至今未开放训练代码，这成为 2024 年学术界的公开争议之一<sup class="cite">[5]</sup>。</div>
+          </div>
+        </div>
+        <div class="grid2" style="margin-top:20px">
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/af2_acc.png" alt="CASP14 精度"></div>
+            <figcaption><b>图 2-5</b>　CASP14 中位 r.m.s.d 柱状图（图片来源：文献 [8] 图 1a）</figcaption>
+          </figure>
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/a_selfdistill.png" alt="自蒸馏流程"></div>
+            <figcaption><b>图 2-7</b>　自蒸馏与循环迭代的训练流程（据文献 [8] 补充材料改绘）</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="sec" id="s24">
+        <h2><span class="num">2.4</span>应用</h2>
+        <div class="sub">预测结构正在成为实验的起点，而非替代品。</div>
+        <div class="grid2">
+          <div class="reveal">
+            <ul class="clean">
+              <li><span class="key">结构解析辅助：</span>作为分子置换的搜索模板，或与电镜密度图拟合，缩短建模周期<sup class="cite">[5,6]</sup>。</li>
+              <li><span class="key">功能与机制研究：</span>为缺乏实验结构的蛋白提供结构假设，用于突变效应与口袋分析<sup class="cite">[4]</sup>。</li>
+              <li><span class="key">药物发现：</span>辅助可成药性评估、虚拟筛选与先导化合物优化；结合构象仍需实验确证<sup class="cite">[3,6]</sup>。</li>
+              <li><span class="key">规模化分析：</span><a href="https://alphafold.ebi.ac.uk/" target="_blank" rel="noopener">数据库化</a>改变了使用方式——先查库、再算新<sup class="cite">[3,4]</sup>。</li>
+            </ul>
+            <div class="note warn">共识：先用预测压缩试错空间，再用实验确证；涉及构象变化、翻译后修饰与配体结合的场合尤其如此<sup class="cite">[5,6]</sup>。</div>
+          </div>
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/a_afdb.jpg" alt="AlphaFold 蛋白质结构数据库"></div>
+            <figcaption><b>图 2-9</b>　AlphaFold 蛋白质结构数据库（图片来源：AFDB 网站截图）</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <div class="pager">
+        <a href="ch1.html"><small>上一章</small><b>← 结构研究的基础</b></a>
+        <a class="next" href="ch3.html"><small>下一章</small><b>RoseTTAFold →</b></a>
+      </div>
+    </article>
+
+    <aside class="rail">
+      <h5>本章目录</h5>
+      <a href="#s21">2.1　预测问题的由来</a>
+      <a href="#s22">2.2　原理</a>
+      <a href="#s23">2.3　发展</a>
+      <a href="#s24">2.4　应用</a>
+      <h5 style="margin-top:22px">其他章节</h5>
+      <a href="ch1.html">01　结构基础</a>
+      <a href="ch3.html">03　RoseTTAFold</a>
+      <a href="ch4.html">04　未来与反思</a>
+      <a href="references.html">参考文献</a>
+      <a href="quiz.html">自测</a>
+    </aside>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="in">
+    <span>《AI 与蛋白质结构——AlphaFold 和 RoseTTAFold》课程报告改编</span>
+    <span>图表引自公开文献，出处见图注 · <a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">站点源码</a></span>
+  </div>
+</footer>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/widgets.js"></script>
+<button id="fab" aria-label="回到顶部">↑</button>
+</body>
+</html>

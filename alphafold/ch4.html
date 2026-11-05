@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 未来与反思 · AI 与蛋白质结构</title>
+<meta name="theme-color" content="#002060">
+<meta property="og:title" content="AI 与蛋白质结构 · AlphaFold 与 RoseTTAFold">
+<meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<div id="progress"></div>
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="index.html"><i></i><span>AI 与蛋白质结构<small>ALPHAFOLD · ROSETTAFOLD</small></span></a>
+    <nav class="main">
+      <a href="ch1.html">结构基础</a>
+      <a href="ch2.html">AlphaFold</a>
+      <a href="ch3.html">RoseTTAFold</a>
+      <a href="ch4.html">未来与反思</a>
+      <a href="resources.html">资源</a>
+      <a href="references.html">文献</a>
+      <a href="quiz.html">自测</a>
+    </nav>
+    <button id="menuBtn" aria-label="展开目录" aria-expanded="false">☰</button>
+    <span class="pct" id="pct">0%</span>
+    <div class="searchwrap">
+      <input id="q" type="search" placeholder="搜索：CASP / pLDDT / RFdiffusion" aria-label="站内搜索">
+      <div id="hits"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="crumb"><a href="index.html">首页</a> / 第四章</div>
+  <div class="page-head">
+    <div class="kicker">CHAPTER 04</div>
+    <h1>未来与反思</h1>
+    <p>预测精度已不再是唯一问题。尚未解决的技术问题、正在展开的设计范式，以及随之而来的开放性与安全性争议，共同构成这一领域下一阶段的议题。</p>
+  </div>
+
+  <div class="takeaway reveal">
+    <b>本章要点</b>
+    <ul><li>复合物界面、无序区、侧链与配体仍是主要误差来源。</li><li>蛋白质语言模型正在绕开 MSA，把预测推向单序列与宏基因组尺度。</li><li>开放性与双重用途，是技术之外同样需要讨论的问题。</li></ul>
+  </div>
+
+  <div class="layout">
+    <article>
+      <section class="sec" id="s41">
+        <h2><span class="num">4.1</span>尚未解决的问题</h2>
+        <div class="sub">预测精度的提升并不均匀：不同体系、不同区域的可信度差异很大。</div>
+        <div class="grid2">
+          <div class="card reveal"><h4>复合物与界面</h4><p>AF2 对蛋白—蛋白界面的预测仍不稳定；AF3 在抗原—抗体任务成功率约 63%，且单次预测波动明显，需要多次采样<sup class="cite">[5,10]</sup>。</p></div>
+          <div class="card reveal"><h4>无序区与动态构象</h4><p>模型倾向把无序区预测为紧凑折叠，且只给单一静态结构；AF3 报告少量手性错误，2000 残基以上复合物偶发空间冲突<sup class="cite">[5,13]</sup>。</p></div>
+          <div class="card reveal"><h4>侧链、配体与修饰</h4><p>主链已接近实验水平，而侧链构象、金属配位、共价修饰与小分子结合位点仍依赖专门方法或实验确证<sup class="cite">[5,10]</sup>。</p></div>
+          <div class="card reveal"><h4>评估与验证</h4><p>置信度指标只能提示可信程度，低置信区域必须以实验验证；预测改变的是结构解析的起点，而不是终点<sup class="cite">[5,10]</sup>。</p></div>
+        </div>
+        <div class="note reveal">这些局限有共同根源：训练数据中复合物、配体与无序区的比例远低于单体蛋白，评价体系也长期以单结构域单体为主要对象<sup class="cite">[5]</sup>。</div>
+      </section>
+
+      <section class="sec" id="s42">
+        <h2><span class="num">4.2</span>语言模型：从 MSA 依赖到单序列预测</h2>
+        <figure class="reveal">
+          <div class="frame"><img src="assets/img/esm_fig1f.jpg" alt="ESM-2 规模与精度"></div>
+          <figcaption><b>图 4-1</b>　ESM-2 规模扩大时结构预测精度的变化：8M 到 15B 参数（图片来源：文献 [13] 图 1F）</figcaption>
+        </figure>
+        <p style="margin-top:16px">拖动滑块改变模型规模，数值取自文献 [13] 图 1F 的两个靶标：</p>
+        <div class="slider-row reveal">
+          <input id="esm" type="range" min="0" max="5" value="1">
+          <output class="val" id="esmOut">35M</output>
+        </div>
+        <div class="grid2" style="margin-top:4px">
+          <div class="card reveal"><h4>7Q0A（高置信靶标）</h4>
+            <div class="metric"><span>RMSD <b id="esmR1">7.0</b> Å</span><span>pLDDT <b id="esmP1">65.6</b></span><span>困惑度 <b id="esmX1">11.3</b></span></div>
+            <div class="pbar" style="margin-top:12px"><i id="esmBar1" style="background:#0a7d5a;width:65.6%"></i></div>
+          </div>
+          <div class="card reveal"><h4>T1056（低同源靶标）</h4>
+            <div class="metric"><span>RMSD <b id="esmR2">3.9</b> Å</span><span>pLDDT <b id="esmP2">61.8</b></span><span>困惑度 <b id="esmX2">10.9</b></span></div>
+            <div class="pbar" style="margin-top:12px"><i id="esmBar2" style="background:#c9801d;width:61.8%"></i></div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px">结论：在完全不使用 MSA 的条件下，把语言模型从 8M 扩到 15B，主链误差持续下降、置信度持续上升；15B 模型已用于 <a href="https://esmatlas.com/" target="_blank" rel="noopener">ESM 宏基因组图谱</a>中 6.17 亿条序列的批量预测，其中 2.25 亿条为高置信度<sup class="cite">[13]</sup>。</p>
+      </section>
+
+      <section class="sec" id="s43">
+        <h2><span class="num">4.3</span>未来方向</h2>
+        <div class="grid2">
+          <div class="card reveal"><h4>从头设计与功能定制</h4><p>以 RFdiffusion 等扩散模型按指定拓扑与功能位点生成新骨架，再由序列设计模型给出氨基酸序列<sup class="cite">[12]</sup>。</p></div>
+          <div class="card reveal"><h4>动态构象与光谱描述</h4><p>从单一静态结构转向构象系综；结合分子动力学与光谱描述符，刻画变构、折叠路径与配体诱导变化<sup class="cite">[7]</sup>。</p></div>
+          <div class="card reveal"><h4>摆脱 MSA 依赖</h4><p>以大规模蛋白质语言模型直接从单条序列推断结构，缓解孤儿蛋白与人工设计序列缺乏同源序列的问题<sup class="cite">[13]</sup>。</p></div>
+          <div class="card reveal"><h4>AI 与实验的闭环</h4><p>在晶体学与冷冻电镜流程中自动建模、自动修正；实验数据反过来持续改进模型<sup class="cite">[4]</sup>。</p></div>
+        </div>
+        <p style="margin-top:14px">这些方向的共同前提是：<span class="key">模型输出的可信度必须可被表达</span>——不确定度、适用域与失败模式，与平均精度同等重要<sup class="cite">[5,7]</sup>。</p>
+      </section>
+
+      <section class="sec" id="s44">
+        <h2><span class="num">4.4</span>科学与社会</h2>
+        <div class="grid2">
+          <div class="card reveal"><h4>开放与可重复</h4><p>AF2 论文与代码公开，使结果可复现；AF3 未开放训练代码，逾千名学者联署公开信质疑。若关键实现无法获得，独立验证与改进就会被限制，这与“可重复性”原则相悖<sup class="cite">[5,10]</sup>。</p></div>
+          <div class="card reveal"><h4>学术与产业</h4><p>结构预测已被广泛用于药物发现、酶工程与合成生物学，改变了研究分工，也让算力与数据成为新的门槛<sup class="cite">[4,6]</sup>。</p></div>
+          <div class="card reveal"><h4>双重用途与生物安全</h4><p>设计能力的普及带来双重用途风险：同一套工具既能设计药物，也可能被用于增强病原体。需要技术护栏、发布审查与社区规范共同作用<sup class="cite">[5]</sup>。</p></div>
+          <div class="card reveal"><h4>教育与普及</h4><p>预测与设计工具进入课堂，使“结构—功能”关系更直观；同时也要求学生理解模型的适用边界，而不是把输出当作结论<sup class="cite">[6,7]</sup>。</p></div>
+        </div>
+        <div class="note reveal">讨论这些问题时，一个有用的立场是：把模型当作“研究基础设施”而非“答案生成器”——基础设施需要维护、审计与公共讨论。</div>
+      </section>
+
+      <div class="pager">
+        <a href="ch3.html"><small>上一章</small><b>← RoseTTAFold</b></a>
+        <a class="next" href="references.html"><small>下一步</small><b>参考文献与自测 →</b></a>
+      </div>
+    </article>
+
+    <aside class="rail">
+      <h5>本章目录</h5>
+      <a href="#s41">4.1　尚未解决</a>
+      <a href="#s42">4.2　语言模型</a>
+      <a href="#s43">4.3　未来方向</a>
+      <a href="#s44">4.4　科学与社会</a>
+      <h5 style="margin-top:22px">其他章节</h5>
+      <a href="ch1.html">01　结构基础</a>
+      <a href="ch2.html">02　AlphaFold</a>
+      <a href="ch3.html">03　RoseTTAFold</a>
+      <a href="references.html">参考文献</a>
+      <a href="quiz.html">自测</a>
+    </aside>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="in">
+    <span>《AI 与蛋白质结构——AlphaFold 和 RoseTTAFold》课程报告改编</span>
+    <span>图表引自公开文献，出处见图注 · <a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">站点源码</a></span>
+  </div>
+</footer>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/widgets.js"></script>
+<button id="fab" aria-label="回到顶部">↑</button>
+</body>
+</html>

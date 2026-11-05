@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 RoseTTAFold · AI 与蛋白质结构</title>
+<meta name="theme-color" content="#002060">
+<meta property="og:title" content="AI 与蛋白质结构 · AlphaFold 与 RoseTTAFold">
+<meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<div id="progress"></div>
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="index.html"><i></i><span>AI 与蛋白质结构<small>ALPHAFOLD · ROSETTAFOLD</small></span></a>
+    <nav class="main">
+      <a href="ch1.html">结构基础</a>
+      <a href="ch2.html">AlphaFold</a>
+      <a href="ch3.html">RoseTTAFold</a>
+      <a href="ch4.html">未来与反思</a>
+      <a href="resources.html">资源</a>
+      <a href="references.html">文献</a>
+      <a href="quiz.html">自测</a>
+    </nav>
+    <button id="menuBtn" aria-label="展开目录" aria-expanded="false">☰</button>
+    <span class="pct" id="pct">0%</span>
+    <div class="searchwrap">
+      <input id="q" type="search" placeholder="搜索：CASP / pLDDT / RFdiffusion" aria-label="站内搜索">
+      <div id="hits"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="crumb"><a href="index.html">首页</a> / 第三章</div>
+  <div class="page-head">
+    <div class="kicker">CHAPTER 03</div>
+    <h1>RoseTTAFold：原理 → 发展 → 应用</h1>
+    <p>几乎与 AlphaFold2 同期出现的另一条技术路线：把序列、残基间几何与三维坐标放进同一个网络并行建模，以较低算力取得接近的精度，并把预测推进到设计与全原子。</p>
+  </div>
+
+  <div class="takeaway reveal">
+    <b>本章要点</b>
+    <ul><li>三轨网络让三维坐标参与中间层，以较低算力取得接近的精度。</li><li>同一表示被延伸为设计（RFdiffusion）与全原子建模（All-Atom）。</li><li>应用定位是“帮助实验”，分子置换与功能注释是最直接的两类。</li></ul>
+  </div>
+
+  <div class="layout">
+    <article>
+      <section class="sec" id="s31">
+        <h2><span class="num">3.1</span>原理</h2>
+        <div class="sub">设计起点：让三维坐标参与中间层。点击任一轨道查看其职责。</div>
+        <svg class="track-svg reveal" viewBox="0 0 880 250" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 z" fill="#8fa3bf"/>
+            </marker>
+          </defs>
+          <g class="box" data-track="1d">
+            <rect x="24" y="30" width="190" height="46" rx="9" fill="#e8f0fa" stroke="#c9d8ea"/>
+            <text x="40" y="58" font-weight="700">1D 轨道</text><text x="108" y="58" fill="#5b6b82">序列 / MSA</text>
+          </g>
+          <g class="box" data-track="2d">
+            <rect x="24" y="102" width="190" height="46" rx="9" fill="#e6f2f1" stroke="#c3dedd"/>
+            <text x="40" y="130" font-weight="700">2D 轨道</text><text x="108" y="130" fill="#5b6b82">距离 / 取向</text>
+          </g>
+          <g class="box" data-track="3d">
+            <rect x="24" y="174" width="190" height="46" rx="9" fill="#fbecd8" stroke="#e8c9a1"/>
+            <text x="40" y="202" font-weight="700">3D 轨道</text><text x="108" y="202" fill="#5b6b82">原子坐标</text>
+          </g>
+          <g>
+            <rect x="300" y="86" width="200" height="78" rx="12" fill="#fff" stroke="#b9c8dc" stroke-width="1.5"/>
+            <text x="330" y="118" font-weight="700" fill="#002060">三轨交互</text>
+            <text x="330" y="140" fill="#5b6b82">注意力 + 外积聚合</text>
+          </g>
+          <g>
+            <rect x="590" y="86" width="200" height="78" rx="12" fill="#fff" stroke="#b9c8dc" stroke-width="1.5"/>
+            <text x="614" y="118" font-weight="700" fill="#002060">坐标更新</text>
+            <text x="614" y="140" fill="#5b6b82">SE(3)-Transformer</text>
+          </g>
+          <path d="M214 53 C260 53 265 96 300 106" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
+          <path d="M214 125 L300 125" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
+          <path d="M214 197 C260 197 265 154 300 144" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
+          <path d="M500 125 L590 125" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
+          <path d="M690 86 C690 40 420 30 380 30" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
+          <path d="M690 164 C690 220 420 228 380 228" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
+          <text x="700" y="40" fill="#c9801d">回环</text>
+        </svg>
+        <div class="note" id="trackNote">点击上方任一轨道，查看它在网络中的职责。</div>
+
+        <div class="grid2" style="margin-top:22px">
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/rf_arch.png" alt="RoseTTAFold 三轨网络"></div>
+            <figcaption><b>图 3-1</b>　RoseTTAFold 三轨网络（图片来源：文献 [9] 图 1A）</figcaption>
+          </figure>
+          <div class="reveal">
+            <p><span class="key">训练与成本：</span>260 残基截断片段、单卡 RTX2080 约 10 分钟完成 400 残基预测，全原子精细化交给 pyRosetta；显存约 8 GB（AlphaFold2 约 24 GB）<sup class="cite">[9]</sup>。</p>
+            <p><span class="key">性能：</span>CASP14 平均 TM-score 约 0.75，与 AlphaFold2 仍有差距，但在缺乏模板或中等难度任务中稳定<sup class="cite">[9]</sup>。</p>
+            <p style="font-size:13px;color:var(--muted)">差别不在“多加了一条轨道”，而在信息流方向：双轨模型要等 1D 与 2D 处理完毕才推理坐标，三轨模型让坐标在中间层持续参与更新。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="s32">
+        <h2><span class="num">3.2</span>发展</h2>
+        <div class="sub">同一路线的两次延伸：把预测变成生成，把对象扩展到全原子。</div>
+
+        <h3 class="sub">3.2.1　性能评估：CASP14 与 CAMEO</h3>
+        <figure class="reveal">
+          <div class="frame"><img src="assets/img/rf_casp_cameo.png" alt="CASP14 与 CAMEO 结果"></div>
+          <figcaption><b>图 3-2</b>　CASP14 与 CAMEO 中各组的表现（图片来源：文献 [9] 图 1B、1C）</figcaption>
+        </figure>
+        <p style="margin-top:14px">在同一届盲测中接近最好方法，并在连续盲测中稳定领先多数服务器：作者对差距的解释是“预测能力 + 可搜索的模型规模”，而非单纯的网络深度<sup class="cite">[9]</sup>。</p>
+
+        <h3 class="sub">3.2.2　RFdiffusion：从预测到设计（互动）</h3>
+        <div class="grid2 narrow">
+          <div class="reveal">
+            <p><span class="key">基本思路：</span>把蛋白骨架看作可加噪的三维坐标，用 RoseTTAFold 作去噪器（<a href="https://github.com/RosettaCommons/RFdiffusion" target="_blank" rel="noopener">RFdiffusion 代码</a>），从随机噪声反演回可设计骨架；序列交由 ProteinMPNN 设计<sup class="cite">[12]</sup>。</p>
+            <p><span class="key">条件设计：</span>对称性、结合靶标、功能基序以坐标或掩码注入，同一模型可产出单体、对称寡聚体、结合蛋白与基序支架<sup class="cite">[12]</sup>。</p>
+            <p style="font-size:13px;color:var(--muted)">拖动滑块控制“去噪步数”，观察随机点如何收敛为一条可折叠的骨架。</p>
+            <div class="slider-row">
+              <input id="denoise" type="range" min="0" max="100" value="18">
+              <output class="val" id="denoiseOut">18%</output>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn" id="dnFree">无条件生成</button>
+              <button class="btn" id="dnBinder">结合靶标（固定受体）</button>
+              <button class="btn" id="dnReset">重置</button>
+            </div>
+            <div class="metric"><span>相似度（示意）<b id="dnScore">18%</b></span><span>去噪步 <b id="dnStep">36 / 200</b></span></div>
+          </div>
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/rfd_fig1b.jpg" alt="RFdiffusion 条件设计"></div>
+            <figcaption><b>图 3-4</b>　RFdiffusion 的条件设计：对称寡聚体、结合蛋白、基序支架（图片来源：文献 [12] 图 1b）</figcaption>
+          </figure>
+        </div>
+        <canvas class="demo reveal" id="dnCanvas" width="1000" height="240"></canvas>
+
+        <h3 class="sub">3.2.3　RoseTTAFold All-Atom</h3>
+        <div class="grid2">
+          <figure class="reveal">
+            <div class="frame"><img src="assets/img/rfaa_fig1a.png" alt="RoseTTAFold All-Atom"></div>
+            <figcaption><b>图 3-5</b>　All-Atom 的输入与输出（图片来源：文献 [11] 图 1A）</figcaption>
+          </figure>
+          <div class="reveal">
+            <p><span class="key">全原子表示：</span>蛋白与核酸按残基/碱基表示，其余组分按原子图表示——1D 编码元素类型，2D 编码化学键，3D 编码手性<sup class="cite">[11]</sup>。</p>
+            <p><span class="key">架构与训练：</span><a href="https://github.com/baker-laboratory/RoseTTAFold-All-Atom" target="_blank" rel="noopener">All-Atom</a>：36 个主区块 + 4 个精修层，全原子 FAPE 损失；训练集约 12 万条蛋白—小分子结构、11 万条蛋白—金属结构<sup class="cite">[11]</sup>。</p>
+            <div class="note">意义：预测对象从“蛋白”扩展到“生物分子体系”，为酶活性位点设计、金属配位建模与共价药物研究提供统一基础。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="s33">
+        <h2><span class="num">3.3</span>应用</h2>
+        <div class="sub">论文给出的三类用途，均以“帮助实验”而非“取代实验”为目标。</div>
+        <div class="grid2">
+          <div class="card reveal">
+            <h4>结构解析与复合物预测</h4>
+            <ul class="clean">
+              <li>四个此前未解析的晶体结构——GLYAT、细菌氧化还原酶、细菌表层蛋白 SLP、真菌蛋白 Lrbp——用 RoseTTAFold 作模板成功完成分子置换<sup class="cite">[9]</sup>。</li>
+              <li>PI3Kγ 复合物：帮助完成异源二聚体的结构解析，体现“预测—密度图拟合—模型修正”的协同<sup class="cite">[9]</sup>。</li>
+              <li>仅由序列生成复合物模型，跳过“分别建模—对接”流程。</li>
+            </ul>
+          </div>
+          <div class="card reveal">
+            <h4>功能注释与疾病突变</h4>
+            <ul class="clean">
+              <li>TANGO2：Ntn 水解酶折叠，突变 R26K、R32Q、G154R、L50P 位于活性口袋或疏水核心<sup class="cite">[9]</sup>。</li>
+              <li>ADAM33：前导结构域被预测为糖蛋白 β-折叠，H318Q 位于该折叠核心<sup class="cite">[9]</sup>。</li>
+              <li>CERS1：跨膜神经酰胺合成酶，E185Q、H183Q 等突变靠近催化残基<sup class="cite">[9]</sup>。</li>
+            </ul>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px">这些结果的价值不在“给出结论”，而在把零散的突变信息组织成可验证的机制假说。</p>
+      </section>
+
+      <section class="sec" id="s34">
+        <h2><span class="num">3.4</span>与 AlphaFold 的技术对照</h2>
+        <div class="tablewrap reveal">
+          <table class="cmp">
+            <thead><tr><th style="width:18%">比较维度</th><th>AlphaFold2 / AF3</th><th>RoseTTAFold 系列</th></tr></thead>
+            <tbody>
+              <tr><td>信息流</td><td>双轨（MSA + 残基对）+ 结构模块</td><td>三轨（1D/2D/3D）并行交互</td></tr>
+              <tr><td>推理成本</td><td>较高显存与算力需求</td><td>单卡可跑，400 残基以内约 10 分钟</td></tr>
+              <tr><td>CASP14 表现</td><td>中位 GDT 92.4，居首</td><td>平均 TM-score 约 0.75，次之</td></tr>
+              <tr><td>能力扩展</td><td>AF3：核酸、配体、共价修饰</td><td>All-Atom：全原子体系；RFdiffusion：设计</td></tr>
+              <tr><td>开放程度</td><td>AF2 开源；AF3 未开放代码</td><td>代码与服务器开放，便于二次开发</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:14px">二者并非替代关系：AlphaFold 系列以精度与覆盖面取胜，RoseTTAFold 系列以低门槛与可改造性见长；在方法学上，二者共享 MSA、注意力与端到端训练三项基础<sup class="cite">[7,8,9]</sup>。</p>
+      </section>
+
+      <div class="pager">
+        <a href="ch2.html"><small>上一章</small><b>← AlphaFold</b></a>
+        <a class="next" href="ch4.html"><small>下一章</small><b>未来与反思 →</b></a>
+      </div>
+    </article>
+
+    <aside class="rail">
+      <h5>本章目录</h5>
+      <a href="#s31">3.1　原理</a>
+      <a href="#s32">3.2　发展</a>
+      <a href="#s33">3.3　应用</a>
+      <a href="#s34">3.4　技术对照</a>
+      <h5 style="margin-top:22px">其他章节</h5>
+      <a href="ch1.html">01　结构基础</a>
+      <a href="ch2.html">02　AlphaFold</a>
+      <a href="ch4.html">04　未来与反思</a>
+      <a href="references.html">参考文献</a>
+      <a href="quiz.html">自测</a>
+    </aside>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="in">
+    <span>《AI 与蛋白质结构——AlphaFold 和 RoseTTAFold》课程报告改编</span>
+    <span>图表引自公开文献，出处见图注 · <a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">站点源码</a></span>
+  </div>
+</footer>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/widgets.js"></script>
+<button id="fab" aria-label="回到顶部">↑</button>
+</body>
+</html>
