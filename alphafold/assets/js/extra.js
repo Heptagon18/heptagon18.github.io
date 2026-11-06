@@ -21,6 +21,9 @@
         document.body.style.overflow = '';
       }
       thumbs.forEach(t => t.addEventListener('click', () => open(t.dataset.src, t.dataset.cap)));
+      document.querySelectorAll('.open-orig').forEach(a => a.addEventListener('click', ev => {
+        ev.preventDefault(); open(a.dataset.src, a.dataset.cap);
+      }));
       lb.addEventListener('click', close);
       document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
     })();

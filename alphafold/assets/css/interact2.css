@@ -87,3 +87,19 @@
   .track-toggle{font-size:12px}
   .track-toggle .tt{padding:6px 11px}
 }
+
+/* ===== 图版高度统一（1.2 三类方法） ===== */
+.grid2.narrow figure .frame,
+.panel .grid2.narrow figure .frame{
+  display:flex;align-items:center;justify-content:center;
+  height:330px;padding:10px;background:#fbfcfe;
+}
+.panel .grid2.narrow figure .frame img{
+  max-height:100%;width:auto;max-width:100%;object-fit:contain;border-radius:6px;
+}
+.levels-fig{margin-top:22px}
+.levels-fig svg{width:100%;height:auto;display:block}
+.levels-fig figcaption{margin-top:10px}
+@media (max-width:860px){
+  .grid2.narrow figure .frame{height:240px}
+}

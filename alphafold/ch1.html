@@ -8,10 +8,10 @@
 <meta property="og:title" content="AI 与蛋白质结构 · AlphaFold 与 RoseTTAFold">
 <meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
 <meta property="og:type" content="website">
-<link rel="stylesheet" href="assets/css/site.css">
-<link rel="stylesheet" href="assets/css/extra.css">
-<link rel="stylesheet" href="assets/css/cite.css">
-<link rel="stylesheet" href="assets/css/interact2.css">
+<link rel="stylesheet" href="assets/css/site.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/extra.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/cite.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/interact2.css?v=2026110601">
 </head>
 <body>
 <div id="progress"></div>
@@ -53,17 +53,83 @@
     <article>
       <section class="sec" id="s11">
         <h2><span class="num">1.1</span>蛋白质结构的意义与解析的困难</h2>
-        <div class="grid2">
-          <div class="reveal">
+        <div class="reveal">
             <p>蛋白质的功能由其三维结构决定：酶依靠精确的活性口袋完成催化，抗体通过可变区识别抗原表位，激素与受体的结合同样依赖特定的空间构象<sup class="cite">[1,6]</sup>。因此，酶制剂、激素、疫苗、抗体与血浆蛋白制品的活性与稳定性，本质上都由结构信息决定。</p>
             <p>然而结构解析并不容易：层级叠加、结构域组合、共价修饰、样品制备与环境依赖，五类因素共同造成“通量瓶颈”——一种蛋白从基因到结构，往往需要数月乃至数年的周期<sup class="cite">[3]</sup>。</p>
-            <div class="note warn">需要说明“结构决定功能”的边界：内在无序蛋白在生理条件下并无固定结构，却承担信号转导与调控功能；这类体系既是实验难点，也是当前预测误差最大的区域<sup class="cite">[5]</sup>。</div>
           </div>
-          <figure class="reveal">
-            <div class="frame"><img src="assets/img/a_levels.png" alt="蛋白质的一级至四级结构"></div>
-            <figcaption><b>图 1-2</b>　蛋白质的一级至四级结构（据文献 [2] 改绘）</figcaption>
-          </figure>
-        </div>
+
+        <figure class="levels-fig reveal">
+          <svg viewBox="0 0 960 236" role="img" aria-label="蛋白质的一级到四级结构示意">
+            <defs>
+              <linearGradient id="lvA" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2a86cf"/><stop offset="1" stop-color="#1f6fb2"/>
+              </linearGradient>
+              <linearGradient id="lvB" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stop-color="#117f86"/><stop offset="1" stop-color="#2aa39c"/>
+              </linearGradient>
+            </defs>
+
+            <g transform="translate(0,0)">
+              <rect x="6" y="14" width="212" height="196" rx="16" fill="#f7fbff" stroke="#dbe7f6"/>
+              <text x="20" y="42" font-size="14" font-weight="700" fill="#002060">一级结构</text>
+              <text x="20" y="60" font-size="11" fill="#5b6b82">氨基酸序列</text>
+              <g>
+                <path d="M36 132 L64 108 L92 138 L120 112 L148 140 L176 114 L196 132"
+                      fill="none" stroke="#c9d8ea" stroke-width="2"/>
+                <circle cx="36" cy="132" r="9" fill="#e9f2fb" stroke="#2a86cf"/>
+                <circle cx="64" cy="108" r="9" fill="#e9f2fb" stroke="#2a86cf"/>
+                <circle cx="92" cy="138" r="9" fill="#e9f2fb" stroke="#2a86cf"/>
+                <circle cx="120" cy="112" r="9" fill="#e9f2fb" stroke="#2a86cf"/>
+                <circle cx="148" cy="140" r="9" fill="#e9f2fb" stroke="#2a86cf"/>
+                <circle cx="176" cy="114" r="9" fill="#e9f2fb" stroke="#2a86cf"/>
+                <circle cx="196" cy="132" r="9" fill="#e9f2fb" stroke="#2a86cf"/>
+              </g>
+              <text x="20" y="188" font-size="10.5" fill="#5b6b82">Met–Gly–Thr–Leu–Arg…</text>
+            </g>
+
+            <g transform="translate(238,0)">
+              <rect x="6" y="14" width="212" height="196" rx="16" fill="#f6fbfb" stroke="#d3e7e6"/>
+              <text x="20" y="42" font-size="14" font-weight="700" fill="#002060">二级结构</text>
+              <text x="20" y="60" font-size="11" fill="#5b6b82">α 螺旋 / β 折叠</text>
+              <path d="M40 108 q14 -22 28 0 q14 22 28 0 q14 -22 28 0 q14 22 28 0"
+                    fill="none" stroke="url(#lvB)" stroke-width="6" stroke-linecap="round"/>
+              <path d="M52 160 L96 144 L140 162 L184 146" fill="none" stroke="#117f86" stroke-width="6"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M176 140 l14 6 l-14 6" fill="none" stroke="#117f86" stroke-width="5" stroke-linecap="round"/>
+              <text x="20" y="192" font-size="10.5" fill="#5b6b82">局部规则构象</text>
+            </g>
+
+            <g transform="translate(476,0)">
+              <rect x="6" y="14" width="212" height="196" rx="16" fill="#fbf8f4" stroke="#eee0cc"/>
+              <text x="20" y="42" font-size="14" font-weight="700" fill="#002060">三级结构</text>
+              <text x="20" y="60" font-size="11" fill="#5b6b82">整链三维折叠</text>
+              <path d="M56 170 C36 132 62 96 100 104 C132 110 146 132 138 152 C130 172 96 184 72 170
+                       C54 160 60 138 80 132 C100 126 120 140 116 156"
+                    fill="none" stroke="url(#lvA)" stroke-width="7" stroke-linecap="round"/>
+              <circle cx="150" cy="120" r="7" fill="#c9801d"/>
+              <text x="20" y="192" font-size="10.5" fill="#5b6b82">口袋与活性位点形成</text>
+            </g>
+
+            <g transform="translate(714,0)">
+              <rect x="6" y="14" width="212" height="196" rx="16" fill="#f9f9fd" stroke="#dddff0"/>
+              <text x="20" y="42" font-size="14" font-weight="700" fill="#002060">四级结构</text>
+              <text x="20" y="60" font-size="11" fill="#5b6b82">多链组装</text>
+              <g stroke="#9fb3cc" stroke-width="2">
+                <circle cx="82" cy="118" r="30" fill="#e9f2fb"/>
+                <circle cx="140" cy="118" r="30" fill="#eef7f6"/>
+                <circle cx="82" cy="168" r="26" fill="#fdf3e6"/>
+                <circle cx="140" cy="168" r="26" fill="#eff1fa"/>
+              </g>
+              <text x="20" y="200" font-size="10.5" fill="#5b6b82">血红蛋白式的四聚体</text>
+            </g>
+          </svg>
+          <figcaption><b>图 1-2</b>　蛋白质的一级至四级结构（自绘制示意；
+            <a href="#" class="open-orig" data-src="assets/img/a_levels.png"
+               data-cap="一级至四级结构示意（原始插图）">查看原始插图 ↗</a>）</figcaption>
+        </figure>
+
+        <div class="note warn reveal">需要说明“结构决定功能”的边界：内在无序蛋白在生理条件下并无固定结构，却承担信号转导与调控功能；这类体系既是实验难点，也是当前预测误差最大的区域<sup class="cite">[5]</sup>。</div>
+
         <div class="strip reveal">
           <div class="strip-head">结构决定功能的几个例子 <span>点击缩略图可放大</span></div>
           <div class="strip-row">
@@ -189,11 +255,11 @@
     <span>图表引自公开文献，出处见图注 · <a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">站点源码</a></span>
   </div>
 </footer>
-<script src="assets/js/core.js"></script>
-<script src="assets/js/widgets.js"></script>
-<script src="assets/js/extra.js"></script>
-<script src="assets/js/cite.js"></script>
-<script src="assets/js/interact2.js"></script>
+<script src="assets/js/core.js?v=2026110601"></script>
+<script src="assets/js/widgets.js?v=2026110601"></script>
+<script src="assets/js/extra.js?v=2026110601"></script>
+<script src="assets/js/cite.js?v=2026110601"></script>
+<script src="assets/js/interact2.js?v=2026110601"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
 
 <div id="lightbox" class="lightbox" aria-hidden="true">
