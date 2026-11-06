@@ -1,0 +1,43 @@
+/* ===== 文献角标弹窗 ===== */
+sup.cite{
+  cursor:pointer;position:relative;
+  color:var(--blue);font-weight:600;padding:0 1px;border-radius:3px;
+  transition:background .15s,color .15s;
+}
+sup.cite:hover,sup.cite:focus{background:#e6f0fb;outline:none}
+sup.cite.pinned{background:#dbe9fa}
+
+#citePop{
+  position:fixed;z-index:95;width:min(420px,calc(100vw - 32px));
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 18px 44px rgba(9,18,34,.22);
+  padding:14px 16px 12px;font-size:13px;line-height:1.68;color:var(--body);
+  opacity:0;pointer-events:none;transform:translateY(6px);
+  transition:opacity .14s ease,transform .14s ease;
+}
+#citePop.show{opacity:1;pointer-events:auto;transform:none}
+#citePop .cp-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:11px;letter-spacing:1.4px;color:var(--muted);margin-bottom:8px;
+}
+#citePop .cp-head b{color:var(--blue);letter-spacing:0}
+#citePop .cp-item{display:flex;gap:9px;margin:8px 0}
+#citePop .cp-item .no{
+  font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:700;flex:0 0 auto;
+}
+#citePop .cp-item .txt{font-size:12.6px;color:var(--body)}
+#citePop .cp-item .txt i{color:var(--muted);font-style:normal;display:block;margin-top:2px;font-size:12px}
+#citePop .cp-foot{
+  display:flex;gap:14px;border-top:1px dashed var(--line);margin-top:10px;padding-top:9px;
+  font-size:12px;
+}
+#citePop .cp-foot a{color:var(--blue)}
+#citePop .cp-close{
+  border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:2px 4px;
+}
+#citePop .cp-close:hover{color:var(--navy)}
+
+/* 文献页定位高亮 */
+.ref:target,.ref.flash{border-color:var(--amber);box-shadow:0 0 0 3px rgba(201,128,29,.16);background:#fffdf7}
+
+.ref{scroll-margin-top:90px}

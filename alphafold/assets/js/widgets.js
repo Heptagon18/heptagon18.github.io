@@ -276,6 +276,7 @@ const REFS = [
       .forEach(r => {
         const d = document.createElement('div');
         d.className = 'ref';
+        d.id = 'ref-' + r.id;
         let txt = r.t;
         if (key) txt = txt.replace(new RegExp('(' + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>');
         const q = encodeURIComponent(r.q || r.t);
