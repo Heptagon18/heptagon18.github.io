@@ -403,7 +403,12 @@ function shuffle(arr) {
       const d = document.createElement('div');
       d.className = 'q';
       d.dataset.qi = qi;
-      let html = '<div class="tagline">' + it.tag + '</div><h4>' + (qi + 1) + '. ' + it.q + '</h4>';
+      const sec = sectionUrl(it.tag);
+      const tagHtml = sec
+        ? '<a class="q-tag" href="' + sec.href + '" title="跳转到正文：' + sec.label + '">' + sec.label +
+          '<span>查看 ↗</span></a>'
+        : '<span class="q-tag plain">' + it.tag + '</span>';
+      let html = tagHtml + '<h4>' + (qi + 1) + '. ' + it.q + '</h4>';
       it.o.forEach((o, oi) => {
         html += '<label class="opt" data-o="' + oi + '">' + String.fromCharCode(65 + oi) + '．' + o + '</label>';
       });
@@ -439,8 +444,7 @@ function shuffle(arr) {
         op.classList.toggle('wrong', !!pick && op === pick && oi !== it.a);
       });
       const ok = pick && +pick.dataset.o === it.a;
-      const sec = sectionUrl(it.tag);
-      const go = sec ? ' <a class="fb-go" href="' + sec.href + '">回看 ' + sec.label + ' →</a>' : '';
+      const go = sec ? ' <a class="fb-go" href="' + sec.href + '">回看本节 →</a>' : '';
       d.querySelector('.fb').innerHTML = (ok ? '<span style="color:#1d8a5a">✔ 正确。</span> '
         : '<span style="color:#b3403f">✘ 正确答案：' + String.fromCharCode(65 + it.a) + '。</span> ') + it.f + go;
       if (ok) score++;

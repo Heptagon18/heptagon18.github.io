@@ -1,0 +1,11 @@
+/* ===== 题目上的章节跳转标签 ===== */
+.q-tag{
+  display:inline-flex;align-items:center;gap:7px;font-size:11px;font-family:var(--mono);
+  background:var(--soft);color:var(--blue);border-radius:999px;padding:4px 11px;
+  text-decoration:none;margin-bottom:10px;transition:.15s;border:1px solid transparent;
+}
+.q-tag span{font-family:inherit;font-size:10.5px;color:var(--muted);letter-spacing:.2px}
+.q-tag:hover{background:#dfeaf9;border-color:#c7dcf5;text-decoration:none;color:var(--navy)}
+.q-tag:hover span{color:var(--blue)}
+.q-tag.plain{color:var(--muted);font-family:var(--mono)}
+.q-tag.plain:hover{background:var(--soft)}
