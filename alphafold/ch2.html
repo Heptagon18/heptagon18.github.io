@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/extra.css">
 <link rel="stylesheet" href="assets/css/cite.css">
+<link rel="stylesheet" href="assets/css/interact2.css">
 </head>
 <body>
 <div id="progress"></div>
@@ -66,6 +67,22 @@
           <div class="frame"><img src="assets/img/af2_arch.png" alt="AlphaFold2 端到端流程"></div>
           <figcaption><b>图 2-1</b>　AlphaFold2 端到端流程：48 个 Evoformer 区块、8 个结构模块、三轮回环（图片来源：文献 [8] 图 1e）</figcaption>
         </figure>
+
+        <div class="stepper reveal" id="archStepper">
+          <div class="stepper-title">把流程拆开看：点击任意一步</div>
+          <div class="stages">
+            <button class="stage on" data-s="0"><b>1</b> 序列与 MSA</button>
+            <span class="arrow">→</span>
+            <button class="stage" data-s="1"><b>2</b> Evoformer ×48</button>
+            <span class="arrow">→</span>
+            <button class="stage" data-s="2"><b>3</b> 配对表示</button>
+            <span class="arrow">→</span>
+            <button class="stage" data-s="3"><b>4</b> 结构模块 ×8</button>
+            <span class="arrow">→</span>
+            <button class="stage" data-s="4"><b>5</b> 坐标与置信度</button>
+          </div>
+          <div class="stage-body" id="archBody"></div>
+        </div>
         <div class="grid2" style="margin-top:22px">
           <div class="card reveal">
             <h4>两条信息流</h4>
@@ -108,6 +125,16 @@
           <div class="card reveal"><h4>循环迭代</h4><p>先给出粗略结构假设，再作为额外输入送回网络重复检验，要求结果同时满足 MSA 与结构约束<sup class="cite">[8]</sup>。</p></div>
         </div>
 
+
+        <div class="ratio reveal">
+          <div class="ratio-bar"><i class="pdb" style="width:25%"></i><i class="pred" style="width:75%"></i></div>
+          <div class="ratio-legend">
+            <span><i class="dot pdb"></i>PDB 实验结构 约 25%</span>
+            <span><i class="dot pred"></i>模型高置信预测 约 75%</span>
+            <span class="hint">自蒸馏：用模型自己的输出扩充训练集</span>
+          </div>
+        </div>
+
         <h3 class="sub">2.2.3　pLDDT 判读器（互动）</h3>
         <p style="color:var(--muted);font-size:13.6px">pLDDT 是模型自评的局部置信度（0–100）。拖动滑块，看看不同区间该怎么用：</p>
         <div class="slider-row reveal">
@@ -131,6 +158,16 @@
             <p>此后进入版本迭代：AF2 → AF2-Multimer → AF3（2024），能力从单体扩展到核酸、配体与共价修饰<sup class="cite">[10]</sup>；同期 <a href="https://alphafold.ebi.ac.uk/" target="_blank" rel="noopener">AlphaFold 数据库</a>覆盖 2 亿余条结构<sup class="cite">[3,4]</sup>。</p>
             <div class="note">开放程度的对比值得注意：AF2 代码开源，AF3 至今未开放训练代码，这成为 2024 年学术界的公开争议之一<sup class="cite">[5]</sup>。</div>
           </div>
+        </div>
+
+        <div class="vstep reveal" id="verStep">
+          <div class="vstep-row" id="verBtns">
+            <button class="vbtn" data-v="0">AlphaFold1 <span>2018</span></button>
+            <button class="vbtn on" data-v="1">AlphaFold2 <span>2020</span></button>
+            <button class="vbtn" data-v="2">AF2-Multimer <span>2021</span></button>
+            <button class="vbtn" data-v="3">AlphaFold3 <span>2024</span></button>
+          </div>
+          <div class="vbody" id="verBody"></div>
         </div>
         <div class="grid2" style="margin-top:20px">
           <figure class="reveal">
@@ -196,6 +233,7 @@
 <script src="assets/js/widgets.js"></script>
 <script src="assets/js/extra.js"></script>
 <script src="assets/js/cite.js"></script>
+<script src="assets/js/interact2.js"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
 </body>
 </html>

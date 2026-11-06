@@ -338,6 +338,30 @@ const QUIZ_BANK = [
   { tag: '4.3', q: '下列哪一项不是本报告列出的未来方向？', o: ['从头设计', '动态构象与系综', '摆脱 MSA 依赖', '彻底取消实验验证'], a: 3, f: '预测改变的是结构解析的起点，而非终点；实验验证仍是必要环节。' }
 ];
 
+
+/* 章节标签 → 正文锚点 */
+const SECTION_URL = {
+  '1.1': ['ch1.html#s11', '1.1 意义与困难'],
+  '1.2': ['ch1.html#s12', '1.2 三类实验方法'],
+  '1.3': ['ch1.html#s13', '1.3 方法比较'],
+  '2.1': ['ch2.html#s21', '2.1 预测问题的由来'],
+  '2.2': ['ch2.html#s22', '2.2 原理'],
+  '2.3': ['ch2.html#s23', '2.3 发展'],
+  '2.4': ['ch2.html#s24', '2.4 应用'],
+  '3.1': ['ch3.html#s31', '3.1 原理'],
+  '3.2': ['ch3.html#s32', '3.2 发展'],
+  '3.3': ['ch3.html#s33', '3.3 应用'],
+  '3.4': ['ch3.html#s34', '3.4 技术对照'],
+  '4.1': ['ch4.html#s41', '4.1 尚未解决'],
+  '4.2': ['ch4.html#s42', '4.2 语言模型'],
+  '4.3': ['ch4.html#s43', '4.3 未来方向'],
+  '4.4': ['ch4.html#s44', '4.4 科学与社会']
+};
+function sectionUrl(tag) {
+  const hit = SECTION_URL[tag];
+  return hit ? { href: hit[0], label: hit[1] } : null;
+}
+
 const PICK = 6;
 let current = [];
 
@@ -405,6 +429,7 @@ function shuffle(arr) {
 
   if (btnCheck) btnCheck.addEventListener('click', () => {
     let score = 0;
+    const wrongTags = [];
     box.querySelectorAll('.q').forEach(d => {
       const it = current[+d.dataset.qi];
       const pick = d.querySelector('.opt.pick');
@@ -414,20 +439,29 @@ function shuffle(arr) {
         op.classList.toggle('wrong', !!pick && op === pick && oi !== it.a);
       });
       const ok = pick && +pick.dataset.o === it.a;
+      const sec = sectionUrl(it.tag);
+      const go = sec ? ' <a class="fb-go" href="' + sec.href + '">回看 ' + sec.label + ' →</a>' : '';
       d.querySelector('.fb').innerHTML = (ok ? '<span style="color:#1d8a5a">✔ 正确。</span> '
-        : '<span style="color:#b3403f">✘ 正确答案：' + String.fromCharCode(65 + it.a) + '。</span> ') + it.f;
+        : '<span style="color:#b3403f">✘ 正确答案：' + String.fromCharCode(65 + it.a) + '。</span> ') + it.f + go;
       if (ok) score++;
+      else wrongTags.push(it.tag);
     });
     const pct = Math.round(score / current.length * 100);
     scoreEl.textContent = '得分：' + score + ' / ' + current.length;
     document.getElementById('qProg').style.width = '100%';
     card.classList.add('show');
+    const uniq = [...new Set(wrongTags)];
+    const chips = uniq.map(tag => {
+      const sec = sectionUrl(tag);
+      return sec ? '<a class="chip-go" href="' + sec.href + '">' + sec.label + '</a>' : '';
+    }).join('');
     card.innerHTML = '<div style="font-size:13px;color:var(--muted);letter-spacing:1px">本组得分</div>' +
       '<b>' + score + ' / ' + current.length + '</b><span style="color:var(--muted);margin-left:10px">正确率 ' + pct + '%</span>' +
       '<div style="margin-top:8px;font-size:13.5px;color:var(--body)">' +
       (pct >= 85 ? '很稳：关键数字与判断边界都掌握了。'
         : pct >= 60 ? '基本掌握；建议回看标红的题目对应小节。'
         : '建议重读 2.2、3.1 与 4.2 三节，再来一组。') + '</div>' +
+      (uniq.length ? '<div class="retry-go"><span>本组错题涉及：</span>' + chips + '</div>' : '') +
       '<button class="btn primary" style="margin-top:12px" onclick="document.getElementById(\'quizReset\').click()">换一组题 →</button>';
   });
 

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/extra.css">
 <link rel="stylesheet" href="assets/css/cite.css">
+<link rel="stylesheet" href="assets/css/interact2.css">
 </head>
 <body>
 <div id="progress"></div>
@@ -53,7 +54,13 @@
       <section class="sec" id="s31">
         <h2><span class="num">3.1</span>原理</h2>
         <div class="sub">设计起点：让三维坐标参与中间层。点击任一轨道查看其职责。</div>
-        <svg class="track-svg reveal" viewBox="0 0 880 250" xmlns="http://www.w3.org/2000/svg">
+
+        <div class="track-toggle reveal">
+          <span>对比模式：</span>
+          <button class="tt on" data-mode="three">三轨（RoseTTAFold）</button>
+          <button class="tt" data-mode="two">双轨（AlphaFold2）</button>
+        </div>
+        <svg class="track-svg reveal" id="trackSvg" viewBox="0 0 880 250" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
               <path d="M0,0 L8,4 L0,8 z" fill="#8fa3bf"/>
@@ -83,11 +90,11 @@
           </g>
           <path d="M214 53 C260 53 265 96 300 106" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
           <path d="M214 125 L300 125" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
-          <path d="M214 197 C260 197 265 154 300 144" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
+          <path id="flow3d" d="M214 197 C260 197 265 154 300 144" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
           <path d="M500 125 L590 125" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
-          <path d="M690 86 C690 40 420 30 380 30" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
-          <path d="M690 164 C690 220 420 228 380 228" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
-          <text x="700" y="40" fill="#c9801d">回环</text>
+          <path id="loop1" d="M690 86 C690 40 420 30 380 30" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
+          <path id="loop2" d="M690 164 C690 220 420 228 380 228" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
+          <text id="loopLabel" x="700" y="40" fill="#c9801d">回环</text>
         </svg>
         <div class="note" id="trackNote">点击上方任一轨道，查看它在网络中的职责。</div>
 
@@ -226,6 +233,7 @@
 <script src="assets/js/widgets.js"></script>
 <script src="assets/js/extra.js"></script>
 <script src="assets/js/cite.js"></script>
+<script src="assets/js/interact2.js"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
 </body>
 </html>
