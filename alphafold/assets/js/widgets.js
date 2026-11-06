@@ -301,36 +301,111 @@ const REFS = [
   if (q) q.addEventListener('input', render);
 })();
 
-/* ---------- 自测 ---------- */
-const QUIZ = [
-  { q: 'AlphaFold2 在 CASP14 上的中位主链误差（Cα r.m.s.d.）约为？', o: ['0.96 Å', '2.8 Å', '3.5 Å', '5.0 Å'], a: 0, f: '0.96 Å；当年次优方法约 2.8 Å，全原子精度约 1.5 Å（AF2）对 3.5 Å（次优）。' },
-  { q: 'RoseTTAFold 的三条轨道不包括下列哪一项？', o: ['1D 序列 / MSA', '2D 距离与取向', '3D 原子坐标', '能量项'], a: 3, f: '三轨是 1D、2D、3D 表示；能量项属于传统物理方法或后续 pyRosetta 精修，不在网络内部。' },
-  { q: 'RFdiffusion 属于哪一类方法？', o: ['同源建模', '扩散生成模型', '分子动力学模拟', '密度图拟合'], a: 1, f: '它以 RoseTTAFold 作去噪网络，从随机噪声反演生成新骨架，属扩散生成模型。' },
-  { q: '当某区域的 pLDDT 低于 50 时，合理的做法是？', o: ['直接当作结构证据使用', '只说明该区域“可能存在”，需实验验证', '忽略整条序列', '用该值推断结合亲和力'], a: 1, f: '低置信度往往对应无序区或错误折叠，只能作为假设，不能作为结构证据。' },
-  { q: 'ESMFold 相对基于 MSA 的方法，最关键的不同是？', o: ['必须依赖模板', '由单条序列直接推断，无需 MSA', '只能处理小于 100 残基的蛋白', '精度与 AF2 完全一致'], a: 1, f: '它用蛋白质语言模型直接从单条序列推断全原子结构，摆脱 MSA 依赖，代价是对极低复杂度序列仍不稳定。' }
+/* ---------- 自测（大型题库 + 随机抽题） ---------- */
+const QUIZ_BANK = [
+  { tag: '2.3', q: 'AlphaFold2 在 CASP14 上的中位主链误差（Cα r.m.s.d.）约为？', o: ['0.96 Å', '2.8 Å', '3.5 Å', '5.0 Å'], a: 0, f: '0.96 Å；当年次优方法约 2.8 Å，全原子精度约 1.5 Å（AF2）对 3.5 Å（次优）。' },
+  { tag: '2.3', q: 'AlphaFold2 在 CASP14 的中位 GDT 分数约为？', o: ['72.4', '82.4', '92.4', '98.0'], a: 2, f: '中位 GDT 92.4，被视为“结构预测问题基本解决”的标志。' },
+  { tag: '3.1', q: 'RoseTTAFold 的三条轨道不包括下列哪一项？', o: ['1D 序列 / MSA', '2D 距离与取向', '3D 原子坐标', '能量项'], a: 3, f: '三轨是 1D、2D、3D 表示；能量项属于传统物理方法或后续 pyRosetta 精修。' },
+  { tag: '3.2', q: 'RFdiffusion 属于哪一类方法？', o: ['同源建模', '扩散生成模型', '分子动力学模拟', '密度图拟合'], a: 1, f: '以 RoseTTAFold 作去噪网络，从随机噪声反演生成新骨架。' },
+  { tag: '2.2', q: '某区域 pLDDT 低于 50，合理的做法是？', o: ['直接当作结构证据', '只说明“可能存在”，需实验验证', '忽略整条序列', '用该值推断结合亲和力'], a: 1, f: '低置信度常对应无序区或错误折叠，只能作为假设。' },
+  { tag: '4.2', q: 'ESMFold 相对基于 MSA 的方法，最关键的不同是？', o: ['必须依赖模板', '由单条序列直接推断，无需 MSA', '只能处理小于 100 残基的蛋白', '精度与 AF2 完全一致'], a: 1, f: '用蛋白质语言模型直接从单条序列推断全原子结构。' },
+  { tag: '2.2', q: 'AlphaFold2 训练集中，来自 PDB 已知结构的比例约为？', o: ['25%', '50%', '75%', '90%'], a: 0, f: '约 25% 来自 PDB，75% 来自模型自身的高置信预测（自蒸馏）。' },
+  { tag: '2.2', q: 'AlphaFold2 的 Evoformer 区块数量是？', o: ['12', '24', '48', '96'], a: 2, f: '48 个 Evoformer 区块 + 8 个结构模块，配合三轮回环。' },
+  { tag: '2.2', q: 'AlphaFold2 的结构模块（Structure Module）个数是？', o: ['4', '8', '16', '32'], a: 1, f: '8 个结构模块，以等变注意力直接优化原子坐标。' },
+  { tag: '2.2', q: 'AlphaFold2 的 recycling（循环迭代）默认轮数是？', o: ['1', '2', '3', '5'], a: 2, f: '默认三轮，把上一轮结构作为输入再次预测。' },
+  { tag: '3.1', q: 'RoseTTAFold 预测 400 残基蛋白所需的显存约为？', o: ['约 4 GB', '约 8 GB', '约 16 GB', '约 24 GB'], a: 1, f: '约 8 GB；AlphaFold2 同规模约 24 GB。' },
+  { tag: '3.1', q: 'RoseTTAFold 在单张 RTX2080 上预测 400 残基大约需要？', o: ['约 1 分钟', '约 10 分钟', '约 1 小时', '约 4 小时'], a: 1, f: '约 10 分钟；全原子精修另需 pyRosetta，约 1 小时 CPU。' },
+  { tag: '3.2', q: 'RoseTTAFold 在 CASP14 的平均 TM-score 约为？', o: ['0.55', '0.65', '0.75', '0.85'], a: 2, f: '约 0.75，与 AlphaFold2 仍有差距，但在缺模板任务中稳定。' },
+  { tag: '2.4', q: 'AlphaFold 蛋白质结构数据库（AFDB）目前公开的结构数量为？', o: ['约 20 万', '约 2000 万', '2 亿余条', '20 亿条'], a: 2, f: '2 亿余条，覆盖大量模式生物与人类蛋白组。' },
+  { tag: '4.2', q: 'ESM 宏基因组图谱（ESM Metagenomic Atlas）包含多少条序列的结构预测？', o: ['6170 万', '1.2 亿', '6.17 亿', '61.7 亿'], a: 2, f: '超过 6.17 亿条，其中约 2.25 亿条为高置信度。' },
+  { tag: '4.2', q: 'ESM-2 发布的最大参数规模是？', o: ['1.5 亿', '15 亿', '150 亿（15B）', '1500 亿'], a: 2, f: '15B 参数；困惑度由 8M 的 10.45 降至 6.37。' },
+  { tag: '2.3', q: 'AlphaFold3 相比 AF2 新引入的核心模块是？', o: ['卷积网络', '扩散模块', '循环神经网络', '量子化学计算'], a: 1, f: '以扩散模块生成原子坐标，扩展到核酸、配体与共价修饰。' },
+  { tag: '4.1', q: 'AF3 在抗原—抗体复合物任务中的成功率约为？', o: ['约 23%', '约 43%', '约 63%', '约 93%'], a: 2, f: '约 63%，且单次预测波动明显，需要多次采样。' },
+  { tag: '3.2', q: 'RoseTTAFold All-Atom 的主区块数量是？', o: ['24', '36', '48', '64'], a: 1, f: '36 个主区块 + 4 个精修层。' },
+  { tag: '3.2', q: 'RFdiffusion 生成 100 残基骨架在 A4000 上约需？', o: ['约 1 秒', '约 11 秒', '约 1 分钟', '约 10 分钟'], a: 1, f: '约 11 秒；对比 RFjoint inpainting 的确定性方法更快。' },
+  { tag: '3.3', q: '论文中用 RoseTTAFold 作模板完成分子置换的蛋白不包括？', o: ['GLYAT', '细菌表层蛋白 SLP', '真菌蛋白 Lrbp', '肌红蛋白'], a: 3, f: '案例是 GLYAT、细菌氧化还原酶、SLP 与 Lrbp；肌红蛋白是 1958 年 X 射线的经典对象。' },
+  { tag: '1.2', q: '冷冻电镜获得诺贝尔化学奖的年份是？', o: ['2002', '2009', '2017', '2020'], a: 2, f: '2017 年，表彰冷冻电镜在溶液态大分子结构解析中的贡献。' },
+  { tag: '1.2', q: 'NMR 测定首个蛋白质结构（Wüthrich）大致在？', o: ['1965 年', '1975 年', '1985 年', '1995 年'], a: 2, f: '1985 年报道首个 NMR 蛋白质结构；2002 年获诺贝尔化学奖。' },
+  { tag: '1.2', q: 'X 射线晶体学中，1958 年首次解析的蛋白是？', o: ['肌红蛋白', '血红蛋白四聚体', '胰岛素', '溶菌酶'], a: 0, f: '肌红蛋白（Kendrew）与血红蛋白（Perutz）同年，1962 年获诺贝尔化学奖。' },
+  { tag: '1.3', q: '三类方法共同的瓶颈是？', o: ['都需要同步辐射', '都需要足量、均一的样品', '都需要同位素标记', '都需要液氮速冻'], a: 1, f: '样品制备是共同前提，这正是计算预测得以介入的起点。' },
+  { tag: '4.1', q: '模型把无序区预测为紧凑折叠，这一偏差主要源于？', o: ['算力不足', '训练数据中无序区比例偏低', '损失函数写错', '输入序列太短'], a: 1, f: '训练数据以单体球状蛋白为主，无序区与复合物占比低。' },
+  { tag: '4.4', q: 'AF3 未开放训练代码后，学界的反应是？', o: ['无人关注', '逾千名学者联署公开信', '立即被起诉', '期刊撤稿'], a: 1, f: '逾千名学者联署，质疑这与“可重复性”原则相悖。' },
+  { tag: '2.2', q: 'pLDDT 与 PAE 分别描述？', o: ['全局精度与局部精度', '局部置信度与残基对相对不确定度', '两个都是实验误差', '两个都是训练损失'], a: 1, f: 'pLDDT 逐残基局部置信度；PAE 描述残基对之间相对位置的不确定度。' },
+  { tag: '3.1', q: '三轨模型与双轨模型的关键差别在于？', o: ['参数量更大', '坐标在中间层持续参与更新', '使用更多 GPU', '训练数据不同'], a: 1, f: '差别在信息流方向：三轨让 3D 坐标在每一层参与，而不是末端才推理。' },
+  { tag: '2.1', q: 'CASP 盲测体系开始于哪一年？', o: ['1973', '1994', '2018', '2020'], a: 1, f: '1994 年首届 CASP，用未发表靶标做盲测，建立可比基准。' },
+  { tag: '2.3', q: 'AlphaFold1 在 CASP13 的核心思路是？', o: ['端到端坐标回归', '预测残基间距离图再做优化', '纯同源建模', '分子动力学采样'], a: 1, f: '以深度残差网络预测残基间距离，再用优化求解结构，尚未端到端。' },
+  { tag: '4.3', q: '下列哪一项不是本报告列出的未来方向？', o: ['从头设计', '动态构象与系综', '摆脱 MSA 依赖', '彻底取消实验验证'], a: 3, f: '预测改变的是结构解析的起点，而非终点；实验验证仍是必要环节。' }
 ];
+
+const PICK = 6;
+let current = [];
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 (function () {
   const box = document.getElementById('quizBox');
   if (!box) return;
-  QUIZ.forEach((it, qi) => {
-    const d = document.createElement('div');
-    d.className = 'q';
-    d.dataset.qi = qi;
-    let html = '<h4>' + (qi + 1) + '. ' + it.q + '</h4>';
-    it.o.forEach((o, oi) => { html += '<label class="opt" data-o="' + oi + '">' + String.fromCharCode(65 + oi) + '．' + o + '</label>'; });
-    html += '<div class="fb"></div>';
-    d.innerHTML = html;
-    d.querySelectorAll('.opt').forEach(op => op.addEventListener('click', () => {
-      d.querySelectorAll('.opt').forEach(x => x.classList.remove('pick'));
-      op.classList.add('pick');
-    }));
-    box.appendChild(d);
-  });
-  const btn = document.getElementById('quizCheck');
-  if (btn) btn.addEventListener('click', () => {
+  const btnCheck = document.getElementById('quizCheck');
+  const btnReset = document.getElementById('quizReset');
+  const scoreEl = document.getElementById('quizScore');
+
+  // 顶部工具条
+  const bar = document.createElement('div');
+  bar.className = 'quiz-bar';
+  bar.innerHTML = '<span class="pill" id="qRound">第 1 组</span>' +
+    '<span class="pill" id="qCount">0 / ' + PICK + '</span>' +
+    '<div class="quiz-progress"><i id="qProg"></i></div>' +
+    '<span style="font-size:12px;color:var(--muted)">题库 ' + QUIZ_BANK.length + ' 题，每次随机 ' + PICK + ' 题</span>';
+  box.parentNode.insertBefore(bar, box);
+  const card = document.createElement('div');
+  card.className = 'result-card';
+  card.id = 'quizCard';
+  box.parentNode.insertBefore(card, box.nextSibling);
+
+  let round = 1;
+
+  function render() {
+    current = shuffle(QUIZ_BANK).slice(0, PICK);
+    box.innerHTML = '';
+    current.forEach((it, qi) => {
+      const d = document.createElement('div');
+      d.className = 'q';
+      d.dataset.qi = qi;
+      let html = '<div class="tagline">' + it.tag + '</div><h4>' + (qi + 1) + '. ' + it.q + '</h4>';
+      it.o.forEach((o, oi) => {
+        html += '<label class="opt" data-o="' + oi + '">' + String.fromCharCode(65 + oi) + '．' + o + '</label>';
+      });
+      html += '<div class="fb"></div>';
+      d.innerHTML = html;
+      d.querySelectorAll('.opt').forEach(op => op.addEventListener('click', () => {
+        if (d.classList.contains('done')) return;
+        d.querySelectorAll('.opt').forEach(x => x.classList.remove('pick'));
+        op.classList.add('pick');
+        const n = box.querySelectorAll('.opt.pick').length;
+        document.getElementById('qCount').textContent = n + ' / ' + PICK;
+        document.getElementById('qProg').style.width = (n / PICK * 100) + '%';
+      }));
+      box.appendChild(d);
+    });
+    document.getElementById('qRound').textContent = '第 ' + round + ' 组';
+    document.getElementById('qCount').textContent = '0 / ' + PICK;
+    document.getElementById('qProg').style.width = '0%';
+    scoreEl.textContent = '';
+    card.classList.remove('show');
+    card.innerHTML = '';
+  }
+
+  if (btnCheck) btnCheck.addEventListener('click', () => {
     let score = 0;
     box.querySelectorAll('.q').forEach(d => {
-      const it = QUIZ[+d.dataset.qi];
+      const it = current[+d.dataset.qi];
       const pick = d.querySelector('.opt.pick');
       d.classList.add('done');
       d.querySelectorAll('.opt').forEach((op, oi) => {
@@ -338,20 +413,24 @@ const QUIZ = [
         op.classList.toggle('wrong', !!pick && op === pick && oi !== it.a);
       });
       const ok = pick && +pick.dataset.o === it.a;
-      d.querySelector('.fb').innerHTML = (ok ? '<span style="color:#1d8a5a">✔ 正确。</span> ' :
-        '<span style="color:#b3403f">✘ 正确答案：' + String.fromCharCode(65 + it.a) + '。</span> ') + it.f;
+      d.querySelector('.fb').innerHTML = (ok ? '<span style="color:#1d8a5a">✔ 正确。</span> '
+        : '<span style="color:#b3403f">✘ 正确答案：' + String.fromCharCode(65 + it.a) + '。</span> ') + it.f;
       if (ok) score++;
     });
-    document.getElementById('quizScore').textContent = '得分：' + score + ' / ' + QUIZ.length +
-      (score === QUIZ.length ? '　全部正确' : '');
+    const pct = Math.round(score / current.length * 100);
+    scoreEl.textContent = '得分：' + score + ' / ' + current.length;
+    document.getElementById('qProg').style.width = '100%';
+    card.classList.add('show');
+    card.innerHTML = '<div style="font-size:13px;color:var(--muted);letter-spacing:1px">本组得分</div>' +
+      '<b>' + score + ' / ' + current.length + '</b><span style="color:var(--muted);margin-left:10px">正确率 ' + pct + '%</span>' +
+      '<div style="margin-top:8px;font-size:13.5px;color:var(--body)">' +
+      (pct >= 85 ? '很稳：关键数字与判断边界都掌握了。'
+        : pct >= 60 ? '基本掌握；建议回看标红的题目对应小节。'
+        : '建议重读 2.2、3.1 与 4.2 三节，再来一组。') + '</div>' +
+      '<button class="btn primary" style="margin-top:12px" onclick="document.getElementById(\'quizReset\').click()">换一组题 →</button>';
   });
-  const reset = document.getElementById('quizReset');
-  if (reset) reset.addEventListener('click', () => {
-    box.querySelectorAll('.q').forEach(d => {
-      d.classList.remove('done');
-      d.querySelectorAll('.opt').forEach(op => op.classList.remove('pick', 'right', 'wrong'));
-      d.querySelector('.fb').textContent = '';
-    });
-    document.getElementById('quizScore').textContent = '';
-  });
+
+  if (btnReset) btnReset.addEventListener('click', () => { round++; render(); });
+
+  render();
 })();

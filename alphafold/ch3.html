@@ -9,6 +9,7 @@
 <meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/extra.css">
 </head>
 <body>
 <div id="progress"></div>
@@ -181,11 +182,11 @@
           <table class="cmp">
             <thead><tr><th style="width:18%">比较维度</th><th>AlphaFold2 / AF3</th><th>RoseTTAFold 系列</th></tr></thead>
             <tbody>
-              <tr><td>信息流</td><td>双轨（MSA + 残基对）+ 结构模块</td><td>三轨（1D/2D/3D）并行交互</td></tr>
-              <tr><td>推理成本</td><td>较高显存与算力需求</td><td>单卡可跑，400 残基以内约 10 分钟</td></tr>
-              <tr><td>CASP14 表现</td><td>中位 GDT 92.4，居首</td><td>平均 TM-score 约 0.75，次之</td></tr>
-              <tr><td>能力扩展</td><td>AF3：核酸、配体、共价修饰</td><td>All-Atom：全原子体系；RFdiffusion：设计</td></tr>
-              <tr><td>开放程度</td><td>AF2 开源；AF3 未开放代码</td><td>代码与服务器开放，便于二次开发</td></tr>
+              <tr data-note="双轨把 MSA 与残基对分开更新，结构模块只在末端使用；三轨让坐标在每一层都参与更新，因此能更早形成整体拓扑约束。"><td>信息流</td><td>双轨（MSA + 残基对）+ 结构模块</td><td>三轨（1D/2D/3D）并行交互</td></tr>
+              <tr data-note="AF2 需要较大的显存与更长的推理时间；RoseTTAFold 以 260 残基截断训练，单卡即可完成，但需要 pyRosetta 做全原子精修。"><td>推理成本</td><td>较高显存与算力需求</td><td>单卡可跑，400 残基以内约 10 分钟</td></tr>
+              <tr data-note="同一届盲测中 AF2 居首；RoseTTAFold 的平均 TM-score 约 0.75，在缺少模板的目标上仍保持稳定。"><td>CASP14 表现</td><td>中位 GDT 92.4，居首</td><td>平均 TM-score 约 0.75，次之</td></tr>
+              <tr data-note="AF3 引入扩散模块处理配体与核酸；RoseTTAFold 系列则通过 All-Atom 的全原子表示与 RFdiffusion 的生成能力扩展边界。"><td>能力扩展</td><td>AF3：核酸、配体、共价修饰</td><td>All-Atom：全原子体系；RFdiffusion：设计</td></tr>
+              <tr data-note="AF2 代码开源、AF3 未开放训练代码；RoseTTAFold 系列代码与服务器均开放，便于二次开发与教学复现。"><td>开放程度</td><td>AF2 开源；AF3 未开放代码</td><td>代码与服务器开放，便于二次开发</td></tr>
             </tbody>
           </table>
         </div>
@@ -222,6 +223,7 @@
 </footer>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/widgets.js"></script>
+<script src="assets/js/extra.js"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
 </body>
 </html>

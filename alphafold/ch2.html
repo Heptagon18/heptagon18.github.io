@@ -9,6 +9,7 @@
 <meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/extra.css">
 </head>
 <body>
 <div id="progress"></div>
@@ -85,6 +86,18 @@
             <div class="frame"><img src="assets/img/af2_overlay.jpg" alt="预测与实验结构叠合"></div>
             <figcaption><b>图 2-4</b>　预测（蓝）与实验（绿）结构在三个尺度上的叠合（图片来源：文献 [8] 图 1b–d）</figcaption>
           </figure>
+        </div>
+
+
+        <div class="msa-demo reveal">
+          <div style="font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px">试试看：MSA 深度与长程接触精度</div>
+          <p style="font-size:12.8px;color:var(--muted);margin:0 0 10px">同源序列越多，共变信号越强；但收益会饱和。拖动滑块，看定性趋势。</p>
+          <div class="row">
+            <input id="msaDepth" type="range" min="0" max="8" value="5" style="flex:1">
+            <output class="val" id="msaDepthOut">300 条</output>
+          </div>
+          <div class="pbar" style="margin-top:12px"><i id="msaBar" style="background:#1f6fb2;width:62%"></i></div>
+          <div class="metric"><span>长程接触精度（示意）<b id="msaAcc">62%</b></span><span id="msaNote" style="color:var(--muted)">多数球状蛋白可得到可信的折叠。</span></div>
         </div>
 
         <h3 class="sub">2.2.2　数据库与训练数据</h3>
@@ -180,6 +193,7 @@
 </footer>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/widgets.js"></script>
+<script src="assets/js/extra.js"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
 </body>
 </html>

@@ -9,6 +9,7 @@
 <meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/extra.css">
 </head>
 <body>
 <div id="progress"></div>
@@ -61,10 +62,20 @@
             <figcaption><b>图 1-2</b>　蛋白质的一级至四级结构（据文献 [2] 改绘）</figcaption>
           </figure>
         </div>
-        <div class="grid3" style="margin-top:22px">
-          <figure class="reveal"><div class="frame"><img src="assets/img/a_enzyme.jpg" alt="酶"></div><figcaption>酶：活性口袋决定催化</figcaption></figure>
-          <figure class="reveal"><div class="frame"><img src="assets/img/a_antibody.jpg" alt="抗体"></div><figcaption>抗体：可变区识别表位</figcaption></figure>
-          <figure class="reveal"><div class="frame"><img src="assets/img/a_vaccine.jpg" alt="疫苗"></div><figcaption>疫苗：抗原构象决定免疫原性</figcaption></figure>
+        <div class="strip reveal">
+          <div class="strip-head">结构决定功能的几个例子 <span>点击缩略图可放大</span></div>
+          <div class="strip-row">
+            <button class="thumb" data-cap="酶：精确的活性口袋决定催化效率与底物专一性" data-src="assets/img/a_enzyme.jpg">
+              <img src="assets/img/a_enzyme.jpg" alt="酶"><span>酶</span></button>
+            <button class="thumb" data-cap="抗体：可变区识别抗原表位，决定结合特异性" data-src="assets/img/a_antibody.jpg">
+              <img src="assets/img/a_antibody.jpg" alt="抗体"><span>抗体</span></button>
+            <button class="thumb" data-cap="疫苗：抗原构象决定免疫原性与稳定性" data-src="assets/img/a_vaccine.jpg">
+              <img src="assets/img/a_vaccine.jpg" alt="疫苗"><span>疫苗</span></button>
+            <button class="thumb" data-cap="激素：与受体结合的构象决定信号强度" data-src="assets/img/a_hormone.jpg">
+              <img src="assets/img/a_hormone.jpg" alt="激素"><span>激素</span></button>
+            <button class="thumb" data-cap="血浆蛋白：折叠状态影响运输与稳定性" data-src="assets/img/a_plasma.jpg">
+              <img src="assets/img/a_plasma.jpg" alt="血浆蛋白"><span>血浆蛋白</span></button>
+          </div>
         </div>
       </section>
 
@@ -105,6 +116,30 @@
             </div>
             <figure><div class="frame"><img src="assets/img/a_cryoem.jpg" alt="冷冻电镜结构"></div><figcaption><b>图 1-7</b>　冷冻电镜密度图与结构</figcaption></figure>
           </div>
+        </div>
+
+        <div class="picker reveal">
+          <div class="picker-head">选择困难？回答两个问题，给出方法建议</div>
+          <div class="picker-row">
+            <label>样品类型
+              <select id="pkSample">
+                <option value="crystal">容易结晶的可溶蛋白</option>
+                <option value="membrane">膜蛋白 / 大分子复合物</option>
+                <option value="small">小分子量可溶蛋白（&lt; 30 kDa）</option>
+                <option value="flex">构象不均一、需要看动态</option>
+              </select>
+            </label>
+            <label>更看重
+              <select id="pkGoal">
+                <option value="res">最高分辨率</option>
+                <option value="native">近生理状态</option>
+                <option value="dyn">动态与构象系综</option>
+                <option value="fast">无需结晶、周期短</option>
+              </select>
+            </label>
+            <button class="btn primary" id="pkGo">给出建议</button>
+          </div>
+          <div class="picker-out" id="pkOut">选择条件后点击“给出建议”。</div>
         </div>
       </section>
 
@@ -154,6 +189,14 @@
 </footer>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/widgets.js"></script>
+<script src="assets/js/extra.js"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
+
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <figure>
+    <img id="lbImg" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+</div>
 </body>
 </html>
