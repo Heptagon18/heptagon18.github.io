@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="assets/css/extra.css">
 <link rel="stylesheet" href="assets/css/cite.css">
 <link rel="stylesheet" href="assets/css/interact2.css">
+<link rel="stylesheet" href="assets/css/afdb.css">
 </head>
 <body>
 <div id="progress"></div>
@@ -194,10 +195,32 @@
             </ul>
             <div class="note warn">共识：先用预测压缩试错空间，再用实验确证；涉及构象变化、翻译后修饰与配体结合的场合尤其如此<sup class="cite">[5,6]</sup>。</div>
           </div>
+
           <figure class="reveal">
             <div class="frame"><img src="assets/img/a_afdb.jpg" alt="AlphaFold 蛋白质结构数据库"></div>
             <figcaption><b>图 2-9</b>　AlphaFold 蛋白质结构数据库（图片来源：AFDB 网站截图）</figcaption>
           </figure>
+        </div>
+
+        <div class="afdb-search reveal" id="afdbSearch">
+          <div class="afdb-head">在线检索 AlphaFold 数据库
+            <span>输入蛋白名、基因名或 UniProt 编号，实时查询结构条目与平均 pLDDT</span>
+          </div>
+          <div class="afdb-row">
+            <input id="afdbQ" type="search" placeholder="例如：hemoglobin / TP53 / P69905" aria-label="检索 AlphaFold 数据库">
+            <button class="btn primary" id="afdbGo">检索结构</button>
+          </div>
+          <div class="afdb-chips">
+            <span>示例：</span>
+            <button class="afdb-chip" data-label="血红蛋白">血红蛋白</button>
+            <button class="afdb-chip" data-label="胰岛素">胰岛素</button>
+            <button class="afdb-chip" data-label="溶菌酶">溶菌酶</button>
+            <button class="afdb-chip" data-label="p53">p53</button>
+            <button class="afdb-chip" data-label="绿色荧光蛋白">绿色荧光蛋白</button>
+          </div>
+          <div class="afdb-out" id="afdbOut">
+            <div class="afdb-hint">点一个示例，或直接输入关键词开始检索。数据实时来自 UniProt 与 AlphaFold DB。</div>
+          </div>
         </div>
       </section>
 
@@ -234,6 +257,7 @@
 <script src="assets/js/extra.js"></script>
 <script src="assets/js/cite.js"></script>
 <script src="assets/js/interact2.js"></script>
+<script src="assets/js/afdb.js"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
 </body>
 </html>

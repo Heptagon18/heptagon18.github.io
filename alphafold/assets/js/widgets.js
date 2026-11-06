@@ -434,7 +434,6 @@ function shuffle(arr) {
 
   if (btnCheck) btnCheck.addEventListener('click', () => {
     let score = 0;
-    const wrongTags = [];
     box.querySelectorAll('.q').forEach(d => {
       const it = current[+d.dataset.qi];
       const pick = d.querySelector('.opt.pick');
@@ -448,24 +447,17 @@ function shuffle(arr) {
       d.querySelector('.fb').innerHTML = (ok ? '<span style="color:#1d8a5a">✔ 正确。</span> '
         : '<span style="color:#b3403f">✘ 正确答案：' + String.fromCharCode(65 + it.a) + '。</span> ') + it.f + go;
       if (ok) score++;
-      else wrongTags.push(it.tag);
     });
     const pct = Math.round(score / current.length * 100);
     scoreEl.textContent = '得分：' + score + ' / ' + current.length;
     document.getElementById('qProg').style.width = '100%';
     card.classList.add('show');
-    const uniq = [...new Set(wrongTags)];
-    const chips = uniq.map(tag => {
-      const sec = sectionUrl(tag);
-      return sec ? '<a class="chip-go" href="' + sec.href + '">' + sec.label + '</a>' : '';
-    }).join('');
     card.innerHTML = '<div style="font-size:13px;color:var(--muted);letter-spacing:1px">本组得分</div>' +
       '<b>' + score + ' / ' + current.length + '</b><span style="color:var(--muted);margin-left:10px">正确率 ' + pct + '%</span>' +
       '<div style="margin-top:8px;font-size:13.5px;color:var(--body)">' +
       (pct >= 85 ? '很稳：关键数字与判断边界都掌握了。'
         : pct >= 60 ? '基本掌握；建议回看标红的题目对应小节。'
         : '建议重读 2.2、3.1 与 4.2 三节，再来一组。') + '</div>' +
-      (uniq.length ? '<div class="retry-go"><span>本组错题涉及：</span>' + chips + '</div>' : '') +
       '<button class="btn primary" style="margin-top:12px" onclick="document.getElementById(\'quizReset\').click()">换一组题 →</button>';
   });
 
