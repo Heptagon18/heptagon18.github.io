@@ -167,3 +167,17 @@ h2:hover .anchor-link, h3:hover .anchor-link, .anchor-link:focus { opacity: 1; c
 /* 2.1 时间轴详情卡 */
 [data-theme="dark"] .tl-body { background: var(--card) !important; border-color: var(--line) !important; }
 [data-theme="dark"] .tl-body h4, [data-theme="dark"] .tl-body b { color: var(--navy); }
+
+/* 深色：自测卡片 */
+[data-theme="dark"] .quiz .q { background: var(--card); border-color: var(--line); }
+[data-theme="dark"] .quiz .q h4 { color: var(--ink); }
+[data-theme="dark"] .opt { background: var(--soft); border-color: var(--line); color: var(--body); }
+[data-theme="dark"] .opt:hover { background: #22304c; border-color: var(--blue); }
+[data-theme="dark"] .opt.pick { background: #1d3a5c; border-color: var(--blue); color: #fff; }
+[data-theme="dark"] .opt.right { background: #123326; border-color: #1f6b46; color: #b9e6cd; }
+[data-theme="dark"] .opt.wrong { background: #35181a; border-color: #8b3a3a; color: #f0c2c2; }
+[data-theme="dark"] .q-tag { background: #1b2740; border-color: #2b3b58; color: var(--blue); }
+[data-theme="dark"] .q-tag span { color: var(--muted); }
+[data-theme="dark"] .quiz-bar .pill { background: var(--soft); color: var(--navy); }
+[data-theme="dark"] .result-card { background: var(--card); border-color: var(--line); }
+[data-theme="dark"] .quiz-progress { background: #22304c; }
