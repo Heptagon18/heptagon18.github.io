@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="assets/css/extra.css?v=2026110601">
 <link rel="stylesheet" href="assets/css/cite.css?v=2026110601">
 <link rel="stylesheet" href="assets/css/interact2.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/rfd.css?v=2026110701">
 </head>
 <body>
 <div id="progress"></div>
@@ -133,18 +134,46 @@
               <output class="val" id="denoiseOut">18%</output>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn primary" id="dnPlay">▶ 自动演示</button>
               <button class="btn" id="dnFree">无条件生成</button>
               <button class="btn" id="dnBinder">结合靶标（固定受体）</button>
               <button class="btn" id="dnReset">重置</button>
             </div>
             <div class="metric"><span>相似度（示意）<b id="dnScore">18%</b></span><span>去噪步 <b id="dnStep">36 / 200</b></span></div>
+
+            <div class="dn-stages" id="dnStages">
+              <button class="dn-stage on" data-t="0">① 纯噪声</button>
+              <button class="dn-stage" data-t="0.35">② 骨架雏形</button>
+              <button class="dn-stage" data-t="0.75">③ 可折叠</button>
+              <button class="dn-stage" data-t="1">④ 交给 MPNN</button>
+            </div>
+            <div class="dn-panel" id="dnPanel"></div>
           </div>
           <figure class="reveal">
             <div class="frame"><img src="assets/img/rfd_fig1b.jpg" alt="RFdiffusion 条件设计"></div>
             <figcaption><b>图 3-4</b>　RFdiffusion 的条件设计：对称寡聚体、结合蛋白、基序支架（图片来源：文献 [12] 图 1b）</figcaption>
           </figure>
         </div>
+        <div class="cmp-strip reveal">
+          <div class="cmp-half">
+            <b>AlphaFold2 · 预测</b>
+            <span>输入：序列 + MSA</span>
+            <span>输出：该序列<b>唯一</b>的天然结构</span>
+          </div>
+          <div class="cmp-mid">问题的方向相反</div>
+          <div class="cmp-half alt">
+            <b>RFdiffusion · 设计</b>
+            <span>输入：噪声 + 条件（对称/靶标/基序）</span>
+            <span>输出：自然界<b>不存在</b>的新骨架，再由 ProteinMPNN 给出可表达序列</span>
+          </div>
+        </div>
+
         <canvas class="demo reveal" id="dnCanvas" width="1000" height="240"></canvas>
+
+        <div class="dn-seq reveal" id="dnSeq">
+          <span>ProteinMPNN 设计的序列（示意，随骨架收敛逐步给出）：</span>
+          <code id="dnSeqCode">— — —</code>
+        </div>
 
         <h3 class="sub">3.2.3　RoseTTAFold All-Atom</h3>
         <div class="grid2">
@@ -156,6 +185,23 @@
             <p><span class="key">全原子表示：</span>蛋白与核酸按残基/碱基表示，其余组分按原子图表示——1D 编码元素类型，2D 编码化学键，3D 编码手性<sup class="cite">[11]</sup>。</p>
             <p><span class="key">架构与训练：</span><a href="https://github.com/baker-laboratory/RoseTTAFold-All-Atom" target="_blank" rel="noopener">All-Atom</a>：36 个主区块 + 4 个精修层，全原子 FAPE 损失；训练集约 12 万条蛋白—小分子结构、11 万条蛋白—金属结构<sup class="cite">[11]</sup>。</p>
             <div class="note">意义：预测对象从“蛋白”扩展到“生物分子体系”，为酶活性位点设计、金属配位建模与共价药物研究提供统一基础。</div>
+
+            <div class="aa-rep" id="aaRep">
+              <div class="aa-tabs">
+                <button class="aa-tab on" data-r="1">1D　元素类型</button>
+                <button class="aa-tab" data-r="2">2D　化学键</button>
+                <button class="aa-tab" data-r="3">3D　手性</button>
+              </div>
+              <div class="aa-body" id="aaBody"></div>
+              <div class="aa-filter">
+                <span>包含组分：</span>
+                <button class="aa-chip on" data-c="protein">蛋白</button>
+                <button class="aa-chip" data-c="nucleic">核酸</button>
+                <button class="aa-chip on" data-c="ligand">配体</button>
+                <button class="aa-chip on" data-c="metal">金属离子</button>
+              </div>
+              <div class="aa-count" id="aaCount"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -234,6 +280,7 @@
 <script src="assets/js/extra.js?v=2026110601"></script>
 <script src="assets/js/cite.js?v=2026110601"></script>
 <script src="assets/js/interact2.js?v=2026110601"></script>
+<script src="assets/js/rfd.js?v=2026110701"></script>
 <button id="fab" aria-label="回到顶部">↑</button>
 </body>
 </html>
