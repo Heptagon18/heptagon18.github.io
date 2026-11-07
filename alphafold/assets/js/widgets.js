@@ -223,43 +223,43 @@ const TL = [
 
 /* ---------- 文献列表 ---------- */
 const REFS = [
-  { id: 1, grp: 'cn', doi: '', q: '蛋白质三维结构解析的方法 徐甲强',
+  { id: 1, file: 'assets/pdfs/ref01_xu.pdf', grp: 'cn', doi: '', q: '蛋白质三维结构解析的方法 徐甲强',
     t: '徐甲强, 崔倩倩. 蛋白质三维结构解析的方法[J]. 河南师范大学学报(自然科学版), 2023, 51(4): 116-124.',
     abs: '系统梳理 X 射线晶体衍射、核磁共振与冷冻电镜的原理、流程与适用范围，是第一章方法学部分的主要依据。' },
-  { id: 2, grp: 'cn', doi: '', q: 'AlphaFold 和蛋白质结构预测 郭贝一',
+  { id: 2, file: 'assets/pdfs/ref02_guo.pdf', grp: 'cn', doi: '', q: 'AlphaFold 和蛋白质结构预测 郭贝一',
     t: '郭贝一, 郭晓强. AlphaFold 和蛋白质结构预测[J]. 科学, 2024, 76(5): 39-44.',
     abs: '面向公众介绍 AlphaFold 的缘起、技术路线与影响，并回顾结构生物学的历史脉络：从肌红蛋白到 CASP14。' },
-  { id: 3, grp: 'cn', doi: '', q: 'AlphaFold 时代的蛋白质相关人工智能算法及其应用 孙雨楠',
+  { id: 3, file: 'assets/pdfs/ref03_sun.pdf', grp: 'cn', doi: '', q: 'AlphaFold 时代的蛋白质相关人工智能算法及其应用 孙雨楠',
     t: '孙雨楠, 叶川, 赵东宇. AlphaFold 时代的蛋白质相关人工智能算法及其应用[J]. 生理科学进展, 2025, 56(3): 202-209.',
     abs: '综述 AlphaFold 时代的相关算法谱系与应用场景，用于讨论数据库化对研究方式的影响。' },
-  { id: 4, grp: 'cn', doi: '', q: '蛋白质结构预测模型 AlphaFold2 的应用进展 张弘',
+  { id: 4, file: 'assets/pdfs/ref04_zhang.pdf', grp: 'cn', doi: '', q: '蛋白质结构预测模型 AlphaFold2 的应用进展 张弘',
     t: '张弘, 王慧洁, 鲁睿捷, 等. 蛋白质结构预测模型 AlphaFold2 的应用进展[J]. 生物工程学报, 2024, 40(5): 1406-1420.',
     abs: '按应用领域归纳 AF2 的实践：结构解析辅助、功能注释、药物发现与酶工程。' },
-  { id: 5, grp: 'cn', doi: '', q: 'AlphaFold 结构预测的重大突破及其对蛋白质研究的影响与挑战 宫维斌',
+  { id: 5, file: 'assets/pdfs/ref05_gong.pdf', grp: 'cn', doi: '', q: 'AlphaFold 结构预测的重大突破及其对蛋白质研究的影响与挑战 宫维斌',
     t: '宫维斌. AlphaFold 结构预测的重大突破及其对蛋白质研究的影响与挑战[J]. 生物化学与生物物理进展, 2024, 51(12): 3073-3083.',
     abs: '强调“突破”与“边界”并存：复合物、无序区、配体与动态构象仍是难点，并讨论开放性与可重复性。' },
-  { id: 6, grp: 'cn', doi: '', q: 'AI 蛋白质结构预测在生物医学领域的应用 车禹萱',
+  { id: 6, file: 'assets/pdfs/ref06_che.pdf', grp: 'cn', doi: '', q: 'AI 蛋白质结构预测在生物医学领域的应用 车禹萱',
     t: '车禹萱, 吴睿, 郑积敏. AI 蛋白质结构预测在生物医学领域的应用[J]. 化学教育(中英文), 2026, 47(4).',
     abs: '从生物医学与教学视角讨论预测模型的使用方式与误区，强调不能把输出直接当作结论。' },
-  { id: 7, grp: 'cn', doi: '', q: '人工智能驱动的蛋白质结构预测进展与应用前景 朱吕帅',
+  { id: 7, file: 'assets/pdfs/ref07_zhu.pdf', grp: 'cn', doi: '', q: '人工智能驱动的蛋白质结构预测进展与应用前景 朱吕帅',
     t: '朱吕帅, 李志鹏, 刘欣悦, 等. 人工智能驱动的蛋白质结构预测进展与应用前景[J]. 生物学杂志, 2025, 42(5): 1-9.',
     abs: '梳理从共演化信号到语言模型的演进，并展望设计、动态与实验闭环三个方向。' },
-  { id: 8, grp: 'en', doi: '10.1038/s41586-021-03819-2', q: 'Highly accurate protein structure prediction with AlphaFold',
+  { id: 8, file: 'assets/pdfs/ref08_jumper_nature2021.pdf', grp: 'en', doi: '10.1038/s41586-021-03819-2', q: 'Highly accurate protein structure prediction with AlphaFold',
     t: 'Jumper J, Evans R, Pritzel A, et al. Highly accurate protein structure prediction with AlphaFold[J]. Nature, 2021, 596: 583-589.',
     abs: 'AlphaFold2 原始论文：Evoformer 双轨表示、等变结构模块、recycling 与自蒸馏训练；CASP14 中位 GDT 92.4、Cα r.m.s.d. 0.96 Å。' },
-  { id: 9, grp: 'en', doi: '10.1126/science.abj8754', q: 'Accurate prediction of protein structures and interactions three-track',
+  { id: 9, file: 'assets/pdfs/ref09_baek_science2021.pdf', grp: 'en', doi: '10.1126/science.abj8754', q: 'Accurate prediction of protein structures and interactions three-track',
     t: 'Baek M, DiMaio F, Anishchenko I, et al. Accurate prediction of protein structures and interactions using a three-track neural network[J]. Science, 2021, 373: 871-876.',
     abs: 'RoseTTAFold 原始论文：1D/2D/3D 三轨并行、260 残基截断训练、8 GB 显存与约 10 分钟推理；CASP14 平均 TM-score 约 0.75。' },
-  { id: 10, grp: 'en', doi: '10.1038/s41586-024-07487-w', q: 'Accurate structure prediction of biomolecular interactions AlphaFold 3',
+  { id: 10, file: 'assets/pdfs/ref10_abramson_nature2024.pdf', grp: 'en', doi: '10.1038/s41586-024-07487-w', q: 'Accurate structure prediction of biomolecular interactions AlphaFold 3',
     t: 'Abramson J, Adler J, Dunger J, et al. Accurate structure prediction of biomolecular interactions with AlphaFold 3[J]. Nature, 2024, 630: 493-500.',
     abs: 'AlphaFold3：把扩散模块引入结构生成，扩展到核酸、配体与共价修饰；同时记录抗原—抗体等任务的失败率与手性错误。' },
-  { id: 11, grp: 'en', doi: '10.1126/science.adl2528', q: 'Generalized biomolecular modeling and design RoseTTAFold All-Atom',
+  { id: 11, file: 'assets/pdfs/ref11_krishna_science2024.pdf', grp: 'en', doi: '10.1126/science.adl2528', q: 'Generalized biomolecular modeling and design RoseTTAFold All-Atom',
     t: 'Krishna R, Wang J, Ahern W, et al. Generalized biomolecular modeling and design with RoseTTAFold All-Atom[J]. Science, 2024, 384(6693): eadl2528.',
     abs: '全原子版本：蛋白与核酸按残基/碱基表示，其余按原子图表示；36 主区块 + 4 精修层、全原子 FAPE 损失；训练集约 12 万条蛋白—小分子结构。' },
-  { id: 12, grp: 'en', doi: '10.1038/s41586-023-06415-8', q: 'De novo design of protein structure and function with RFdiffusion',
+  { id: 12, file: 'assets/pdfs/ref12_watson_nature2023.pdf', grp: 'en', doi: '10.1038/s41586-023-06415-8', q: 'De novo design of protein structure and function with RFdiffusion',
     t: 'Watson J L, Juergens D, Bennett N R, et al. De novo design of protein structure and function with RFdiffusion[J]. Nature, 2023, 620(7976): 1089-1100.',
     abs: '以 RoseTTAFold 作去噪网络做蛋白骨架生成：对称性、结合靶标与功能基序以坐标或掩码注入；100 残基设计在 A4000 上约 11 秒。' },
-  { id: 13, grp: 'en', doi: '10.1126/science.ade2574', q: 'Evolutionary-scale prediction atomic-level protein structure language model',
+  { id: 13, file: 'assets/pdfs/ref13_lin_science2023.pdf', grp: 'en', doi: '10.1126/science.ade2574', q: 'Evolutionary-scale prediction atomic-level protein structure language model',
     t: 'Lin Z, Akin H, Rao R, et al. Evolutionary-scale prediction of atomic-level protein structure with a language model[J]. Science, 2023, 379(6637): 1123-1130.',
     abs: 'ESM-2 从 8M 到 15B：困惑度 10.45 → 6.37，无需 MSA 即可提升长程接触与 TM-score；据此构建 6.17 亿条宏基因组的 ESM 图谱。' }
 ];
@@ -285,6 +285,7 @@ const REFS = [
         if (r.grp === 'en') links.push('<a href="https://europepmc.org/search?query=' + encodeURIComponent('DOI:"' + (r.doi || '') + '"') + '" target="_blank" rel="noopener">Europe PMC 全文</a>');
         links.push('<a href="https://scholar.google.com/scholar?q=' + q + '" target="_blank" rel="noopener">学术搜索</a>');
         if (r.grp === 'cn') links.push('<a href="https://s.wanfangdata.com.cn/paper?q=' + q + '" target="_blank" rel="noopener">万方检索</a>');
+        if (r.file) links.push('<a class="ref-dl" href="' + r.file + '" download><b>下载 PDF</b></a>');
         d.innerHTML = '<div class="head"><span class="no">[' + r.id + ']</span><div>' + txt +
           '<div class="ref-links">' + links.join('') + '</div></div></div><div class="abs">' + r.abs + '</div>';
         d.addEventListener('click', (e) => { if (e.target.closest('a')) return; d.classList.toggle('open'); });
