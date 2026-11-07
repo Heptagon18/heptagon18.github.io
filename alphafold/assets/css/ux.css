@@ -1,0 +1,169 @@
+/* ===== 功能增强：深色模式 / 快捷键 / 锚点复制 / 阅读进度 / 打印 ===== */
+
+/* ---------- 深色主题 ---------- */
+[data-theme="dark"] {
+  --ink: #e8eefb;
+  --body: #c4cfe2;
+  --muted: #93a2bb;
+  --navy: #cfe0ff;
+  --blue: #6fb3ee;
+  --blue-2: #8ec6f5;
+  --teal: #5fc3c0;
+  --amber: #e0a860;
+  --line: #27334b;
+  --bg: #0d1421;
+  --card: #141d2e;
+  --soft: #1b2740;
+  --shadow: 0 12px 32px rgba(0, 0, 0, .45);
+  color-scheme: dark;
+}
+[data-theme="dark"] body { background: var(--bg); color: var(--body); }
+[data-theme="dark"] header.top { background: rgba(13, 20, 33, .88); border-bottom-color: var(--line); }
+[data-theme="dark"] header.top .bar { border-color: var(--line); }
+[data-theme="dark"] .logo span small { color: var(--muted); }
+[data-theme="dark"] .searchwrap input { background: var(--card); border-color: var(--line); color: var(--ink); }
+[data-theme="dark"] .searchwrap input::placeholder { color: #6f7f99; }
+[data-theme="dark"] #hits { background: var(--card); border-color: var(--line); }
+[data-theme="dark"] .card,
+[data-theme="dark"] .strip,
+[data-theme="dark"] .stepper,
+[data-theme="dark"] .vstep,
+[data-theme="dark"] .ratio,
+[data-theme="dark"] .msa-demo,
+[data-theme="dark"] .picker,
+[data-theme="dark"] .afdb-search,
+[data-theme="dark"] .afdb-card,
+[data-theme="dark"] .aa-rep,
+[data-theme="dark"] .dn-panel,
+[data-theme="dark"] .dn-seq,
+[data-theme="dark"] .result-card,
+[data-theme="dark"] .takeaway,
+[data-theme="dark"] .note,
+[data-theme="dark"] .ref,
+[data-theme="dark"] .res-card,
+[data-theme="dark"] .pager a { background: var(--card); border-color: var(--line); }
+[data-theme="dark"] figure .frame { background: #0b1220; border-color: var(--line); }
+[data-theme="dark"] .rail { border-color: var(--line); }
+[data-theme="dark"] .rail a.on { border-color: var(--blue); }
+[data-theme="dark"] table.cmp td, [data-theme="dark"] table.cmp th { border-color: var(--line); }
+[data-theme="dark"] .row-note { background: #101a2b; }
+[data-theme="dark"] code, [data-theme="dark"] .stage b, [data-theme="dark"] .afdb-acc { background: var(--soft); }
+[data-theme="dark"] .fb-go, [data-theme="dark"] a { color: var(--blue); }
+
+/* 深色下仍用深底的交互件 */
+[data-theme="dark"] .btn.primary,
+[data-theme="dark"] .tab.on,
+[data-theme="dark"] header.top nav.main a.on,
+[data-theme="dark"] .stage.on,
+[data-theme="dark"] .vbtn.on,
+[data-theme="dark"] .track-toggle .tt.on,
+[data-theme="dark"] .dn-stage.on,
+[data-theme="dark"] .aa-tab.on,
+[data-theme="dark"] table.cmp th {
+  background: #1b4f8f; border-color: #1b4f8f; color: #fff;
+}
+[data-theme="dark"] .stage.on b { background: rgba(255,255,255,.22); color: #fff; }
+[data-theme="dark"] .q-tag { background: #1b2740; border-color: #2b3b58; }
+[data-theme="dark"] .opt { background: #16213440; border-color: var(--line); }
+[data-theme="dark"] .opt:hover { border-color: var(--blue); }
+[data-theme="dark"] .opt.right { background: #123326; border-color: #1f6b46; }
+[data-theme="dark"] .opt.wrong { background: #35181a; border-color: #8b3a3a; }
+[data-theme="dark"] .lightbox figure { background: var(--card); }
+[data-theme="dark"] #citePop { background: var(--card); border-color: var(--line); }
+[data-theme="dark"] #fab { background: var(--card); border-color: var(--line); color: var(--ink); }
+
+/* ---------- 主题切换按钮 ---------- */
+.theme-btn {
+  width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--card); color: var(--navy); cursor: pointer; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 15px; line-height: 1; transition: .15s;
+}
+.theme-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ---------- 锚点复制 ---------- */
+h2 .anchor-link, h3 .anchor-link {
+  margin-left: 8px; font-size: 13px; color: var(--line); text-decoration: none;
+  opacity: 0; transition: .15s; font-family: var(--mono);
+}
+h2:hover .anchor-link, h3:hover .anchor-link, .anchor-link:focus { opacity: 1; color: var(--blue); }
+
+/* ---------- 提示条 ---------- */
+#toast {
+  position: fixed; left: 50%; bottom: 34px; transform: translate(-50%, 12px);
+  background: #002060; color: #fff; font-size: 13px; padding: 10px 18px; border-radius: 999px;
+  box-shadow: 0 14px 34px rgba(0, 32, 96, .35); opacity: 0; pointer-events: none;
+  transition: .22s; z-index: 120; white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+[data-theme="dark"] #toast { background: #1b4f8f; }
+
+/* ---------- 快捷键帮助 ---------- */
+#kbdHelp {
+  position: fixed; inset: 0; background: rgba(9, 18, 34, .55); display: flex;
+  align-items: center; justify-content: center; z-index: 110; opacity: 0; pointer-events: none; transition: .18s;
+}
+#kbdHelp.show { opacity: 1; pointer-events: auto; }
+.kbd-card {
+  width: min(460px, 92vw); background: var(--card); border: 1px solid var(--line);
+  border-radius: 16px; padding: 20px 22px; box-shadow: var(--shadow);
+}
+.kbd-card h3 { margin: 0 0 12px; font-size: 15px; color: var(--navy); }
+.kbd-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; color: var(--body); border-bottom: 1px dashed var(--line); }
+.kbd-row:last-of-type { border: 0; }
+.kbd-row kbd {
+  font-family: var(--mono); font-size: 11.5px; background: var(--soft); border: 1px solid var(--line);
+  border-radius: 6px; padding: 2px 7px; color: var(--navy);
+}
+.kbd-close { margin-top: 14px; }
+
+/* ---------- 继续阅读 ---------- */
+.resume-card {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--blue);
+  border-radius: 12px; padding: 12px 16px; margin: 14px 0; font-size: 13px; color: var(--body);
+}
+.resume-card b { color: var(--navy); }
+.resume-card a { color: var(--blue); }
+.resume-card .rs-meta { color: var(--muted); font-size: 12px; }
+
+/* ---------- 打印 ---------- */
+@media print {
+  header.top, .rail, #fab, #progress, .pager, .searchwrap, #toast, #kbdHelp,
+  .theme-btn, .dn-seq, .strip-head span, .afdb-chips, .aa-filter, .track-toggle { display: none !important; }
+  body { background: #fff; color: #000; }
+  .layout { display: block; }
+  main { padding: 0; }
+  .card, .note, .takeaway, figure .frame { break-inside: avoid; }
+  a { color: #000; text-decoration: underline; }
+  a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 10px; color: #555; }
+}
+
+/* 深色：浅底控件的补充覆盖 */
+[data-theme="dark"] .stage,
+[data-theme="dark"] .vbtn,
+[data-theme="dark"] .aa-chip,
+[data-theme="dark"] .afdb-chip,
+[data-theme="dark"] .dn-stage,
+[data-theme="dark"] .tt,
+[data-theme="dark"] .tab,
+[data-theme="dark"] .thumb,
+[data-theme="dark"] .pill,
+[data-theme="dark"] .q-tag,
+[data-theme="dark"] .tl-body,
+[data-theme="dark"] .stage-row,
+[data-theme="dark"] .kbd-card,
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] button.btn:not(.primary) {
+  background: var(--soft); border-color: var(--line); color: var(--navy);
+}
+[data-theme="dark"] .stage b,
+[data-theme="dark"] .vbtn span { color: var(--muted); }
+[data-theme="dark"] .stage.on b { color: #fff; }
+[data-theme="dark"] .tl-panel,
+[data-theme="dark"] .timeline-panel { background: var(--card); border-color: var(--line); }
+[data-theme="dark"] .timeline:hover .tl-panel { background: var(--soft); }
+
+/* 2.1 时间轴详情卡 */
+[data-theme="dark"] .tl-body { background: var(--card) !important; border-color: var(--line) !important; }
+[data-theme="dark"] .tl-body h4, [data-theme="dark"] .tl-body b { color: var(--navy); }
