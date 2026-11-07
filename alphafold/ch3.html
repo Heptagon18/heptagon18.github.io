@@ -1,65 +1,66 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>03 RoseTTAFold 路 AI 涓庤泲鐧借川缁撴瀯</title>
+<title>03 RoseTTAFold · AI 与蛋白质结构</title>
 <meta name="theme-color" content="#002060">
-<meta property="og:title" content="AI 涓庤泲鐧借川缁撴瀯 路 AlphaFold 涓?RoseTTAFold">
-<meta property="og:description" content="浠庡疄楠岃В鏋愬埌娣卞害瀛︿範棰勬祴銆佸啀鍒拌泲鐧借川璁捐鐨勪氦浜掑紡涓撻銆?>
+<meta property="og:title" content="AI 与蛋白质结构 · AlphaFold 与 RoseTTAFold">
+<meta property="og:description" content="从实验解析到深度学习预测、再到蛋白质设计的交互式专题。">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="assets/css/site.css?v=2026110601">
 <link rel="stylesheet" href="assets/css/extra.css?v=2026110601">
 <link rel="stylesheet" href="assets/css/cite.css?v=2026110601">
 <link rel="stylesheet" href="assets/css/interact2.css?v=2026110601">
-<link rel="stylesheet" href="assets/css/rfd.css?v=2026110702">
+<link rel="stylesheet" href="assets/css/rfd.css?v=2026110703">
+<link rel="stylesheet" href="assets/css/layout.css?v=2026110701">
 </head>
 <body>
 <div id="progress"></div>
 <header class="top">
   <div class="bar">
-    <a class="logo" href="index.html"><i></i><span>AI 涓庤泲鐧借川缁撴瀯<small>ALPHAFOLD 路 ROSETTAFOLD</small></span></a>
+    <a class="logo" href="index.html"><i></i><span>AI 与蛋白质结构<small>ALPHAFOLD · ROSETTAFOLD</small></span></a>
     <nav class="main">
-      <a href="ch1.html">缁撴瀯鍩虹</a>
+      <a href="ch1.html">结构基础</a>
       <a href="ch2.html">AlphaFold</a>
       <a href="ch3.html">RoseTTAFold</a>
-      <a href="ch4.html">鏈潵涓庡弽鎬?/a>
-      <a href="resources.html">璧勬簮</a>
-      <a href="references.html">鏂囩尞</a>
-      <a href="quiz.html">鑷祴</a>
+      <a href="ch4.html">未来与反思</a>
+      <a href="resources.html">资源</a>
+      <a href="references.html">文献</a>
+      <a href="quiz.html">自测</a>
     </nav>
-    <button id="menuBtn" aria-label="灞曞紑鐩綍" aria-expanded="false">鈽?/button>
+    <button id="menuBtn" aria-label="展开目录" aria-expanded="false">☰</button>
     <span class="pct" id="pct">0%</span>
     <div class="searchwrap">
-      <input id="q" type="search" placeholder="鎼滅储锛欳ASP / pLDDT / RFdiffusion" aria-label="绔欏唴鎼滅储">
+      <input id="q" type="search" placeholder="搜索：CASP / pLDDT / RFdiffusion" aria-label="站内搜索">
       <div id="hits"></div>
     </div>
   </div>
 </header>
 
 <main>
-  <div class="crumb"><a href="index.html">棣栭〉</a> / 绗笁绔?/div>
+  <div class="crumb"><a href="index.html">首页</a> / 第三章</div>
   <div class="page-head">
     <div class="kicker">CHAPTER 03</div>
-    <h1>RoseTTAFold锛氬師鐞?鈫?鍙戝睍 鈫?搴旂敤</h1>
-    <p>鍑犱箮涓?AlphaFold2 鍚屾湡鍑虹幇鐨勫彟涓€鏉℃妧鏈矾绾匡細鎶婂簭鍒椼€佹畫鍩洪棿鍑犱綍涓庝笁缁村潗鏍囨斁杩涘悓涓€涓綉缁滃苟琛屽缓妯★紝浠ヨ緝浣庣畻鍔涘彇寰楁帴杩戠殑绮惧害锛屽苟鎶婇娴嬫帹杩涘埌璁捐涓庡叏鍘熷瓙銆?/p>
+    <h1>RoseTTAFold：原理 → 发展 → 应用</h1>
+    <p>几乎与 AlphaFold2 同期出现的另一条技术路线：把序列、残基间几何与三维坐标放进同一个网络并行建模，以较低算力取得接近的精度，并把预测推进到设计与全原子。</p>
   </div>
 
   <div class="takeaway reveal">
-    <b>鏈珷瑕佺偣</b>
-    <ul><li>涓夎建缃戠粶璁╀笁缁村潗鏍囧弬涓庝腑闂村眰锛屼互杈冧綆绠楀姏鍙栧緱鎺ヨ繎鐨勭簿搴︺€?/li><li>鍚屼竴琛ㄧず琚欢浼镐负璁捐锛圧Fdiffusion锛変笌鍏ㄥ師瀛愬缓妯★紙All-Atom锛夈€?/li><li>搴旂敤瀹氫綅鏄€滃府鍔╁疄楠屸€濓紝鍒嗗瓙缃崲涓庡姛鑳芥敞閲婃槸鏈€鐩存帴鐨勪袱绫汇€?/li></ul>
+    <b>本章要点</b>
+    <ul><li>三轨网络让三维坐标参与中间层，以较低算力取得接近的精度。</li><li>同一表示被延伸为设计（RFdiffusion）与全原子建模（All-Atom）。</li><li>应用定位是“帮助实验”，分子置换与功能注释是最直接的两类。</li></ul>
   </div>
 
   <div class="layout">
     <article>
       <section class="sec" id="s31">
-        <h2><span class="num">3.1</span>鍘熺悊</h2>
-        <div class="sub">璁捐璧风偣锛氳涓夌淮鍧愭爣鍙備笌涓棿灞傘€傜偣鍑讳换涓€杞ㄩ亾鏌ョ湅鍏惰亴璐ｃ€?/div>
+        <h2><span class="num">3.1</span>原理</h2>
+        <div class="sub">设计起点：让三维坐标参与中间层。点击任一轨道查看其职责。</div>
 
         <div class="track-toggle reveal">
-          <span>瀵规瘮妯″紡锛?/span>
-          <button class="tt on" data-mode="three">涓夎建锛圧oseTTAFold锛?/button>
-          <button class="tt" data-mode="two">鍙岃建锛圓lphaFold2锛?/button>
+          <span>对比模式：</span>
+          <button class="tt on" data-mode="three">三轨（RoseTTAFold）</button>
+          <button class="tt" data-mode="two">双轨（AlphaFold2）</button>
         </div>
         <svg class="track-svg reveal" id="trackSvg" viewBox="0 0 880 250" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -69,24 +70,24 @@
           </defs>
           <g class="box" data-track="1d">
             <rect x="24" y="30" width="190" height="46" rx="9" fill="#e8f0fa" stroke="#c9d8ea"/>
-            <text x="40" y="58" font-weight="700">1D 杞ㄩ亾</text><text x="108" y="58" fill="#5b6b82">搴忓垪 / MSA</text>
+            <text x="40" y="58" font-weight="700">1D 轨道</text><text x="108" y="58" fill="#5b6b82">序列 / MSA</text>
           </g>
           <g class="box" data-track="2d">
             <rect x="24" y="102" width="190" height="46" rx="9" fill="#e6f2f1" stroke="#c3dedd"/>
-            <text x="40" y="130" font-weight="700">2D 杞ㄩ亾</text><text x="108" y="130" fill="#5b6b82">璺濈 / 鍙栧悜</text>
+            <text x="40" y="130" font-weight="700">2D 轨道</text><text x="108" y="130" fill="#5b6b82">距离 / 取向</text>
           </g>
           <g class="box" data-track="3d">
             <rect x="24" y="174" width="190" height="46" rx="9" fill="#fbecd8" stroke="#e8c9a1"/>
-            <text x="40" y="202" font-weight="700">3D 杞ㄩ亾</text><text x="108" y="202" fill="#5b6b82">鍘熷瓙鍧愭爣</text>
+            <text x="40" y="202" font-weight="700">3D 轨道</text><text x="108" y="202" fill="#5b6b82">原子坐标</text>
           </g>
           <g>
             <rect x="300" y="86" width="200" height="78" rx="12" fill="#fff" stroke="#b9c8dc" stroke-width="1.5"/>
-            <text x="330" y="118" font-weight="700" fill="#002060">涓夎建浜や簰</text>
-            <text x="330" y="140" fill="#5b6b82">娉ㄦ剰鍔?+ 澶栫Н鑱氬悎</text>
+            <text x="330" y="118" font-weight="700" fill="#002060">三轨交互</text>
+            <text x="330" y="140" fill="#5b6b82">注意力 + 外积聚合</text>
           </g>
           <g>
             <rect x="590" y="86" width="200" height="78" rx="12" fill="#fff" stroke="#b9c8dc" stroke-width="1.5"/>
-            <text x="614" y="118" font-weight="700" fill="#002060">鍧愭爣鏇存柊</text>
+            <text x="614" y="118" font-weight="700" fill="#002060">坐标更新</text>
             <text x="614" y="140" fill="#5b6b82">SE(3)-Transformer</text>
           </g>
           <path d="M214 53 C260 53 265 96 300 106" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
@@ -95,184 +96,186 @@
           <path d="M500 125 L590 125" stroke="#8fa3bf" fill="none" marker-end="url(#ar)"/>
           <path id="loop1" d="M690 86 C690 40 420 30 380 30" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
           <path id="loop2" d="M690 164 C690 220 420 228 380 228" stroke="#c9801d" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
-          <text id="loopLabel" x="700" y="40" fill="#c9801d">鍥炵幆</text>
+          <text id="loopLabel" x="700" y="40" fill="#c9801d">回环</text>
         </svg>
-        <div class="note" id="trackNote">鐐瑰嚮涓婃柟浠讳竴杞ㄩ亾锛屾煡鐪嬪畠鍦ㄧ綉缁滀腑鐨勮亴璐ｃ€?/div>
+        <div class="note" id="trackNote">点击上方任一轨道，查看它在网络中的职责。</div>
 
         <div class="grid2" style="margin-top:22px">
           <figure class="reveal">
-            <div class="frame"><img src="assets/img/rf_arch.png" alt="RoseTTAFold 涓夎建缃戠粶"></div>
-            <figcaption><b>鍥?3-1</b>銆€RoseTTAFold 涓夎建缃戠粶锛堝浘鐗囨潵婧愶細鏂囩尞 [9] 鍥?1A锛?/figcaption>
+            <div class="frame"><img src="assets/img/rf_arch.png" alt="RoseTTAFold 三轨网络"></div>
+            <figcaption><b>图 3-1</b>　RoseTTAFold 三轨网络（图片来源：文献 [9] 图 1A）</figcaption>
           </figure>
           <div class="reveal">
-            <p><span class="key">璁粌涓庢垚鏈細</span>260 娈嬪熀鎴柇鐗囨銆佸崟鍗?RTX2080 绾?10 鍒嗛挓瀹屾垚 400 娈嬪熀棰勬祴锛屽叏鍘熷瓙绮剧粏鍖栦氦缁?pyRosetta锛涙樉瀛樼害 8 GB锛圓lphaFold2 绾?24 GB锛?sup class="cite">[9]</sup>銆?/p>
-            <p><span class="key">鎬ц兘锛?/span>CASP14 骞冲潎 TM-score 绾?0.75锛屼笌 AlphaFold2 浠嶆湁宸窛锛屼絾鍦ㄧ己涔忔ā鏉挎垨涓瓑闅惧害浠诲姟涓ǔ瀹?sup class="cite">[9]</sup>銆?/p>
-            <p style="font-size:13px;color:var(--muted)">宸埆涓嶅湪鈥滃鍔犱簡涓€鏉¤建閬撯€濓紝鑰屽湪淇℃伅娴佹柟鍚戯細鍙岃建妯″瀷瑕佺瓑 1D 涓?2D 澶勭悊瀹屾瘯鎵嶆帹鐞嗗潗鏍囷紝涓夎建妯″瀷璁╁潗鏍囧湪涓棿灞傛寔缁弬涓庢洿鏂般€?/p>
+            <p><span class="key">训练与成本：</span>260 残基截断片段、单卡 RTX2080 约 10 分钟完成 400 残基预测，全原子精细化交给 pyRosetta；显存约 8 GB（AlphaFold2 约 24 GB）<sup class="cite">[9]</sup>。</p>
+            <p><span class="key">性能：</span>CASP14 平均 TM-score 约 0.75，与 AlphaFold2 仍有差距，但在缺乏模板或中等难度任务中稳定<sup class="cite">[9]</sup>。</p>
+            <p style="font-size:13px;color:var(--muted)">差别不在“多加了一条轨道”，而在信息流方向：双轨模型要等 1D 与 2D 处理完毕才推理坐标，三轨模型让坐标在中间层持续参与更新。</p>
           </div>
         </div>
       </section>
 
       <section class="sec" id="s32">
-        <h2><span class="num">3.2</span>鍙戝睍</h2>
-        <div class="sub">鍚屼竴璺嚎鐨勪袱娆″欢浼革細鎶婇娴嬪彉鎴愮敓鎴愶紝鎶婂璞℃墿灞曞埌鍏ㄥ師瀛愩€?/div>
+        <h2><span class="num">3.2</span>发展</h2>
+        <div class="sub">同一路线的两次延伸：把预测变成生成，把对象扩展到全原子。</div>
 
-        <h3 class="sub">3.2.1銆€鎬ц兘璇勪及锛欳ASP14 涓?CAMEO</h3>
+        <h3 class="sub">3.2.1　性能评估：CASP14 与 CAMEO</h3>
         <figure class="reveal">
-          <div class="frame"><img src="assets/img/rf_casp_cameo.png" alt="CASP14 涓?CAMEO 缁撴灉"></div>
-          <figcaption><b>鍥?3-2</b>銆€CASP14 涓?CAMEO 涓悇缁勭殑琛ㄧ幇锛堝浘鐗囨潵婧愶細鏂囩尞 [9] 鍥?1B銆?C锛?/figcaption>
+          <div class="frame"><img src="assets/img/rf_casp_cameo.png" alt="CASP14 与 CAMEO 结果"></div>
+          <figcaption><b>图 3-2</b>　CASP14 与 CAMEO 中各组的表现（图片来源：文献 [9] 图 1B、1C）</figcaption>
         </figure>
-        <p style="margin-top:14px">鍦ㄥ悓涓€灞婄洸娴嬩腑鎺ヨ繎鏈€濂芥柟娉曪紝骞跺湪杩炵画鐩叉祴涓ǔ瀹氶鍏堝鏁版湇鍔″櫒锛氫綔鑰呭宸窛鐨勮В閲婃槸鈥滈娴嬭兘鍔?+ 鍙悳绱㈢殑妯″瀷瑙勬ā鈥濓紝鑰岄潪鍗曠函鐨勭綉缁滄繁搴?sup class="cite">[9]</sup>銆?/p>
+        <p style="margin-top:14px">在同一届盲测中接近最好方法，并在连续盲测中稳定领先多数服务器：作者对差距的解释是“预测能力 + 可搜索的模型规模”，而非单纯的网络深度<sup class="cite">[9]</sup>。</p>
 
-        <h3 class="sub">3.2.2銆€RFdiffusion锛氫粠棰勬祴鍒拌璁★紙浜掑姩锛?/h3>
+        <h3 class="sub">3.2.2　RFdiffusion：从预测到设计（互动）</h3>
         <div class="grid2 narrow">
           <div class="reveal">
-            <p><span class="key">鍩烘湰鎬濊矾锛?/span>鎶婅泲鐧介鏋剁湅浣滃彲鍔犲櫔鐨勪笁缁村潗鏍囷紝鐢?RoseTTAFold 浣滃幓鍣櫒锛?a href="https://github.com/RosettaCommons/RFdiffusion" target="_blank" rel="noopener">RFdiffusion 浠ｇ爜</a>锛夛紝浠庨殢鏈哄櫔澹板弽婕斿洖鍙璁￠鏋讹紱搴忓垪浜ょ敱 ProteinMPNN 璁捐<sup class="cite">[12]</sup>銆?/p>
-            <p><span class="key">鏉′欢璁捐锛?/span>瀵圭О鎬с€佺粨鍚堥澏鏍囥€佸姛鑳藉熀搴忎互鍧愭爣鎴栨帺鐮佹敞鍏ワ紝鍚屼竴妯″瀷鍙骇鍑哄崟浣撱€佸绉板鑱氫綋銆佺粨鍚堣泲鐧戒笌鍩哄簭鏀灦<sup class="cite">[12]</sup>銆?/p>
-            <p style="font-size:13px;color:var(--muted)">鎷栧姩婊戝潡鎺у埗鈥滃幓鍣鏁扳€濓紝瑙傚療闅忔満鐐瑰浣曟敹鏁涗负涓€鏉″彲鎶樺彔鐨勯鏋躲€?/p>
+            <p><span class="key">基本思路：</span>把蛋白骨架看作可加噪的三维坐标，用 RoseTTAFold 作去噪器（<a href="https://github.com/RosettaCommons/RFdiffusion" target="_blank" rel="noopener">RFdiffusion 代码</a>），从随机噪声反演回可设计骨架；序列交由 ProteinMPNN 设计<sup class="cite">[12]</sup>。</p>
+            <p><span class="key">条件设计：</span>对称性、结合靶标、功能基序以坐标或掩码注入，同一模型可产出单体、对称寡聚体、结合蛋白与基序支架<sup class="cite">[12]</sup>。</p>
+            <p style="font-size:13px;color:var(--muted)">拖动滑块控制“去噪步数”，观察随机点如何收敛为一条可折叠的骨架。</p>
             <div class="slider-row">
               <input id="denoise" type="range" min="0" max="100" value="18">
               <output class="val" id="denoiseOut">18%</output>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="btn primary" id="dnPlay">鈻?鑷姩婕旂ず</button>
-              <button class="btn" id="dnFree">鏃犳潯浠剁敓鎴?/button>
-              <button class="btn" id="dnBinder">缁撳悎闈舵爣锛堝浐瀹氬彈浣擄級</button>
-              <button class="btn" id="dnReset">閲嶇疆</button>
+              <button class="btn primary" id="dnPlay">▶ 自动演示</button>
+              <button class="btn" id="dnFree">无条件生成</button>
+              <button class="btn" id="dnBinder">结合靶标（固定受体）</button>
+              <button class="btn" id="dnReset">重置</button>
             </div>
-            <div class="metric"><span>鐩镐技搴︼紙绀烘剰锛?b id="dnScore">18%</b></span><span>鍘诲櫔姝?<b id="dnStep">36 / 200</b></span></div>
+            <div class="metric"><span>相似度（示意）<b id="dnScore">18%</b></span><span>去噪步 <b id="dnStep">36 / 200</b></span></div>
 
             <div class="dn-stages" id="dnStages">
-              <button class="dn-stage on" data-t="0">鈶?绾櫔澹?/button>
-              <button class="dn-stage" data-t="0.35">鈶?楠ㄦ灦闆忓舰</button>
-              <button class="dn-stage" data-t="0.75">鈶?鍙姌鍙?/button>
-              <button class="dn-stage" data-t="1">鈶?浜ょ粰 MPNN</button>
+              <button class="dn-stage on" data-t="0">① 纯噪声</button>
+              <button class="dn-stage" data-t="0.35">② 骨架雏形</button>
+              <button class="dn-stage" data-t="0.75">③ 可折叠</button>
+              <button class="dn-stage" data-t="1">④ 交给 MPNN</button>
             </div>
             <div class="dn-panel" id="dnPanel"></div>
           </div>
           <figure class="reveal">
-            <div class="frame"><img src="assets/img/rfd_fig1b.jpg" alt="RFdiffusion 鏉′欢璁捐"></div>
-            <figcaption><b>鍥?3-4</b>銆€RFdiffusion 鐨勬潯浠惰璁★細瀵圭О瀵¤仛浣撱€佺粨鍚堣泲鐧姐€佸熀搴忔敮鏋讹紙鍥剧墖鏉ユ簮锛氭枃鐚?[12] 鍥?1b锛?/figcaption>
+            <div class="frame"><img src="assets/img/rfd_fig1b.jpg" alt="RFdiffusion 条件设计"></div>
+            <figcaption><b>图 3-4</b>　RFdiffusion 的条件设计：对称寡聚体、结合蛋白、基序支架（图片来源：文献 [12] 图 1b）</figcaption>
           </figure>
         </div>
         <div class="cmp-strip reveal">
           <div class="cmp-half">
-            <b>AlphaFold2 路 棰勬祴</b>
-            <span>杈撳叆锛氬簭鍒?+ MSA</span>
-            <span>杈撳嚭锛氳搴忓垪<b>鍞竴</b>鐨勫ぉ鐒剁粨鏋?/span>
+            <b>AlphaFold2 · 预测</b>
+            <span>输入：序列 + MSA</span>
+            <span>输出：该序列<b>唯一</b>的天然结构</span>
           </div>
-          <div class="cmp-mid">闂鐨勬柟鍚戠浉鍙?/div>
+          <div class="cmp-mid">问题的方向相反</div>
           <div class="cmp-half alt">
-            <b>RFdiffusion 路 璁捐</b>
-            <span>杈撳叆锛氬櫔澹?+ 鏉′欢锛堝绉?闈舵爣/鍩哄簭锛?/span>
-            <span>杈撳嚭锛氳嚜鐒剁晫<b>涓嶅瓨鍦?/b>鐨勬柊楠ㄦ灦锛屽啀鐢?ProteinMPNN 缁欏嚭鍙〃杈惧簭鍒?/span>
+            <b>RFdiffusion · 设计</b>
+            <span>输入：噪声 + 条件（对称/靶标/基序）</span>
+            <span>输出：自然界<b>不存在</b>的新骨架，再由 ProteinMPNN 给出可表达序列</span>
           </div>
         </div>
 
         <canvas class="demo reveal" id="dnCanvas" width="1000" height="240"></canvas>
 
         <div class="dn-seq reveal" id="dnSeq">
-          <span>ProteinMPNN 璁捐鐨勫簭鍒楋紙绀烘剰锛岄殢楠ㄦ灦鏀舵暃閫愭缁欏嚭锛夛細</span>
-          <code id="dnSeqCode">鈥?鈥?鈥?/code>
+          <span>ProteinMPNN 设计的序列（示意，随骨架收敛逐步给出）：</span>
+          <code id="dnSeqCode">— — —</code>
         </div>
 
-        <h3 class="sub">3.2.3銆€RoseTTAFold All-Atom</h3>
+        <h3 class="sub">3.2.3　RoseTTAFold All-Atom</h3>
         <div class="grid2">
           <figure class="reveal">
             <div class="frame"><img src="assets/img/rfaa_fig1a.png" alt="RoseTTAFold All-Atom"></div>
-            <figcaption><b>鍥?3-5</b>銆€All-Atom 鐨勮緭鍏ヤ笌杈撳嚭锛堝浘鐗囨潵婧愶細鏂囩尞 [11] 鍥?1A锛?/figcaption>
+            <figcaption><b>图 3-5</b>　All-Atom 的输入与输出（图片来源：文献 [11] 图 1A）</figcaption>
           </figure>
           <div class="reveal">
-            <p><span class="key">鍏ㄥ師瀛愯〃绀猴細</span>铔嬬櫧涓庢牳閰告寜娈嬪熀/纰卞熀琛ㄧず锛屽叾浣欑粍鍒嗘寜鍘熷瓙鍥捐〃绀衡€斺€?D 缂栫爜鍏冪礌绫诲瀷锛?D 缂栫爜鍖栧閿紝3D 缂栫爜鎵嬫€?sup class="cite">[11]</sup>銆?/p>
-            <p><span class="key">鏋舵瀯涓庤缁冿細</span><a href="https://github.com/baker-laboratory/RoseTTAFold-All-Atom" target="_blank" rel="noopener">All-Atom</a>锛?6 涓富鍖哄潡 + 4 涓簿淇眰锛屽叏鍘熷瓙 FAPE 鎹熷け锛涜缁冮泦绾?12 涓囨潯铔嬬櫧鈥斿皬鍒嗗瓙缁撴瀯銆?1 涓囨潯铔嬬櫧鈥旈噾灞炵粨鏋?sup class="cite">[11]</sup>銆?/p>
-            <div class="note">鎰忎箟锛氶娴嬪璞′粠鈥滆泲鐧解€濇墿灞曞埌鈥滅敓鐗╁垎瀛愪綋绯烩€濓紝涓洪叾娲绘€т綅鐐硅璁°€侀噾灞為厤浣嶅缓妯′笌鍏变环鑽墿鐮旂┒鎻愪緵缁熶竴鍩虹銆?/div>
+            <p><span class="key">全原子表示：</span>蛋白与核酸按残基/碱基表示，其余组分按原子图表示——1D 编码元素类型，2D 编码化学键，3D 编码手性<sup class="cite">[11]</sup>。</p>
+            <p><span class="key">架构与训练：</span><a href="https://github.com/baker-laboratory/RoseTTAFold-All-Atom" target="_blank" rel="noopener">All-Atom</a>：36 个主区块 + 4 个精修层，全原子 FAPE 损失；训练集约 12 万条蛋白—小分子结构、11 万条蛋白—金属结构<sup class="cite">[11]</sup>。</p>
+            <div class="note">意义：预测对象从“蛋白”扩展到“生物分子体系”，为酶活性位点设计、金属配位建模与共价药物研究提供统一基础。</div>
 
-            <div class="aa-rep" id="aaRep">
+          </div>
+        </div>
+
+        <div class="aa-rep" id="aaRep">
               <div class="aa-tabs">
-                <button class="aa-tab on" data-r="1">1D銆€鍏冪礌绫诲瀷</button>
-                <button class="aa-tab" data-r="2">2D銆€鍖栧閿?/button>
-                <button class="aa-tab" data-r="3">3D銆€鎵嬫€?/button>
+                <button class="aa-tab on" data-r="1">1D　元素类型</button>
+                <button class="aa-tab" data-r="2">2D　化学键</button>
+                <button class="aa-tab" data-r="3">3D　手性</button>
               </div>
               <div class="aa-body" id="aaBody"></div>
               <div class="aa-filter">
-                <span>鍖呭惈缁勫垎锛?/span>
-                <button class="aa-chip on" data-c="protein">铔嬬櫧</button>
-                <button class="aa-chip" data-c="nucleic">鏍搁吀</button>
-                <button class="aa-chip on" data-c="ligand">閰嶄綋</button>
-                <button class="aa-chip on" data-c="metal">閲戝睘绂诲瓙</button>
+                <span>包含组分：</span>
+                <button class="aa-chip on" data-c="protein">蛋白</button>
+                <button class="aa-chip" data-c="nucleic">核酸</button>
+                <button class="aa-chip on" data-c="ligand">配体</button>
+                <button class="aa-chip on" data-c="metal">金属离子</button>
               </div>
               <div class="aa-count" id="aaCount"></div>
             </div>
-          </div>
-        </div>
+
       </section>
 
       <section class="sec" id="s33">
-        <h2><span class="num">3.3</span>搴旂敤</h2>
-        <div class="sub">璁烘枃缁欏嚭鐨勪笁绫荤敤閫旓紝鍧囦互鈥滃府鍔╁疄楠屸€濊€岄潪鈥滃彇浠ｅ疄楠屸€濅负鐩爣銆?/div>
+        <h2><span class="num">3.3</span>应用</h2>
+        <div class="sub">论文给出的三类用途，均以“帮助实验”而非“取代实验”为目标。</div>
         <div class="grid2">
           <div class="card reveal">
-            <h4>缁撴瀯瑙ｆ瀽涓庡鍚堢墿棰勬祴</h4>
+            <h4>结构解析与复合物预测</h4>
             <ul class="clean">
-              <li>鍥涗釜姝ゅ墠鏈В鏋愮殑鏅朵綋缁撴瀯鈥斺€擥LYAT銆佺粏鑿屾哀鍖栬繕鍘熼叾銆佺粏鑿岃〃灞傝泲鐧?SLP銆佺湡鑿岃泲鐧?Lrbp鈥斺€旂敤 RoseTTAFold 浣滄ā鏉挎垚鍔熷畬鎴愬垎瀛愮疆鎹?sup class="cite">[9]</sup>銆?/li>
-              <li>PI3K纬 澶嶅悎鐗╋細甯姪瀹屾垚寮傛簮浜岃仛浣撶殑缁撴瀯瑙ｆ瀽锛屼綋鐜扳€滈娴嬧€斿瘑搴﹀浘鎷熷悎鈥旀ā鍨嬩慨姝ｂ€濈殑鍗忓悓<sup class="cite">[9]</sup>銆?/li>
-              <li>浠呯敱搴忓垪鐢熸垚澶嶅悎鐗╂ā鍨嬶紝璺宠繃鈥滃垎鍒缓妯♀€斿鎺モ€濇祦绋嬨€?/li>
+              <li>四个此前未解析的晶体结构——GLYAT、细菌氧化还原酶、细菌表层蛋白 SLP、真菌蛋白 Lrbp——用 RoseTTAFold 作模板成功完成分子置换<sup class="cite">[9]</sup>。</li>
+              <li>PI3Kγ 复合物：帮助完成异源二聚体的结构解析，体现“预测—密度图拟合—模型修正”的协同<sup class="cite">[9]</sup>。</li>
+              <li>仅由序列生成复合物模型，跳过“分别建模—对接”流程。</li>
             </ul>
           </div>
           <div class="card reveal">
-            <h4>鍔熻兘娉ㄩ噴涓庣柧鐥呯獊鍙?/h4>
+            <h4>功能注释与疾病突变</h4>
             <ul class="clean">
-              <li>TANGO2锛歂tn 姘磋В閰舵姌鍙狅紝绐佸彉 R26K銆丷32Q銆丟154R銆丩50P 浣嶄簬娲绘€у彛琚嬫垨鐤忔按鏍稿績<sup class="cite">[9]</sup>銆?/li>
-              <li>ADAM33锛氬墠瀵肩粨鏋勫煙琚娴嬩负绯栬泲鐧?尾-鎶樺彔锛孒318Q 浣嶄簬璇ユ姌鍙犳牳蹇?sup class="cite">[9]</sup>銆?/li>
-              <li>CERS1锛氳法鑶滅缁忛叞鑳哄悎鎴愰叾锛孍185Q銆丠183Q 绛夌獊鍙橀潬杩戝偓鍖栨畫鍩?sup class="cite">[9]</sup>銆?/li>
+              <li>TANGO2：Ntn 水解酶折叠，突变 R26K、R32Q、G154R、L50P 位于活性口袋或疏水核心<sup class="cite">[9]</sup>。</li>
+              <li>ADAM33：前导结构域被预测为糖蛋白 β-折叠，H318Q 位于该折叠核心<sup class="cite">[9]</sup>。</li>
+              <li>CERS1：跨膜神经酰胺合成酶，E185Q、H183Q 等突变靠近催化残基<sup class="cite">[9]</sup>。</li>
             </ul>
           </div>
         </div>
-        <p style="font-size:13px;color:var(--muted);margin-top:12px">杩欎簺缁撴灉鐨勪环鍊间笉鍦ㄢ€滅粰鍑虹粨璁衡€濓紝鑰屽湪鎶婇浂鏁ｇ殑绐佸彉淇℃伅缁勭粐鎴愬彲楠岃瘉鐨勬満鍒跺亣璇淬€?/p>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px">这些结果的价值不在“给出结论”，而在把零散的突变信息组织成可验证的机制假说。</p>
       </section>
 
       <section class="sec" id="s34">
-        <h2><span class="num">3.4</span>涓?AlphaFold 鐨勬妧鏈鐓?/h2>
+        <h2><span class="num">3.4</span>与 AlphaFold 的技术对照</h2>
         <div class="tablewrap reveal">
           <table class="cmp">
-            <thead><tr><th style="width:18%">姣旇緝缁村害</th><th>AlphaFold2 / AF3</th><th>RoseTTAFold 绯诲垪</th></tr></thead>
+            <thead><tr><th style="width:18%">比较维度</th><th>AlphaFold2 / AF3</th><th>RoseTTAFold 系列</th></tr></thead>
             <tbody>
-              <tr data-note="鍙岃建鎶?MSA 涓庢畫鍩哄鍒嗗紑鏇存柊锛岀粨鏋勬ā鍧楀彧鍦ㄦ湯绔娇鐢紱涓夎建璁╁潗鏍囧湪姣忎竴灞傞兘鍙備笌鏇存柊锛屽洜姝よ兘鏇存棭褰㈡垚鏁翠綋鎷撴墤绾︽潫銆?><td>淇℃伅娴?/td><td>鍙岃建锛圡SA + 娈嬪熀瀵癸級+ 缁撴瀯妯″潡</td><td>涓夎建锛?D/2D/3D锛夊苟琛屼氦浜?/td></tr>
-              <tr data-note="AF2 闇€瑕佽緝澶х殑鏄惧瓨涓庢洿闀跨殑鎺ㄧ悊鏃堕棿锛汻oseTTAFold 浠?260 娈嬪熀鎴柇璁粌锛屽崟鍗″嵆鍙畬鎴愶紝浣嗛渶瑕?pyRosetta 鍋氬叏鍘熷瓙绮句慨銆?><td>鎺ㄧ悊鎴愭湰</td><td>杈冮珮鏄惧瓨涓庣畻鍔涢渶姹?/td><td>鍗曞崱鍙窇锛?00 娈嬪熀浠ュ唴绾?10 鍒嗛挓</td></tr>
-              <tr data-note="鍚屼竴灞婄洸娴嬩腑 AF2 灞呴锛汻oseTTAFold 鐨勫钩鍧?TM-score 绾?0.75锛屽湪缂哄皯妯℃澘鐨勭洰鏍囦笂浠嶄繚鎸佺ǔ瀹氥€?><td>CASP14 琛ㄧ幇</td><td>涓綅 GDT 92.4锛屽眳棣?/td><td>骞冲潎 TM-score 绾?0.75锛屾涔?/td></tr>
-              <tr data-note="AF3 寮曞叆鎵╂暎妯″潡澶勭悊閰嶄綋涓庢牳閰革紱RoseTTAFold 绯诲垪鍒欓€氳繃 All-Atom 鐨勫叏鍘熷瓙琛ㄧず涓?RFdiffusion 鐨勭敓鎴愯兘鍔涙墿灞曡竟鐣屻€?><td>鑳藉姏鎵╁睍</td><td>AF3锛氭牳閰搞€侀厤浣撱€佸叡浠蜂慨楗?/td><td>All-Atom锛氬叏鍘熷瓙浣撶郴锛汻Fdiffusion锛氳璁?/td></tr>
-              <tr data-note="AF2 浠ｇ爜寮€婧愩€丄F3 鏈紑鏀捐缁冧唬鐮侊紱RoseTTAFold 绯诲垪浠ｇ爜涓庢湇鍔″櫒鍧囧紑鏀撅紝渚夸簬浜屾寮€鍙戜笌鏁欏澶嶇幇銆?><td>寮€鏀剧▼搴?/td><td>AF2 寮€婧愶紱AF3 鏈紑鏀句唬鐮?/td><td>浠ｇ爜涓庢湇鍔″櫒寮€鏀撅紝渚夸簬浜屾寮€鍙?/td></tr>
+              <tr data-note="双轨把 MSA 与残基对分开更新，结构模块只在末端使用；三轨让坐标在每一层都参与更新，因此能更早形成整体拓扑约束。"><td>信息流</td><td>双轨（MSA + 残基对）+ 结构模块</td><td>三轨（1D/2D/3D）并行交互</td></tr>
+              <tr data-note="AF2 需要较大的显存与更长的推理时间；RoseTTAFold 以 260 残基截断训练，单卡即可完成，但需要 pyRosetta 做全原子精修。"><td>推理成本</td><td>较高显存与算力需求</td><td>单卡可跑，400 残基以内约 10 分钟</td></tr>
+              <tr data-note="同一届盲测中 AF2 居首；RoseTTAFold 的平均 TM-score 约 0.75，在缺少模板的目标上仍保持稳定。"><td>CASP14 表现</td><td>中位 GDT 92.4，居首</td><td>平均 TM-score 约 0.75，次之</td></tr>
+              <tr data-note="AF3 引入扩散模块处理配体与核酸；RoseTTAFold 系列则通过 All-Atom 的全原子表示与 RFdiffusion 的生成能力扩展边界。"><td>能力扩展</td><td>AF3：核酸、配体、共价修饰</td><td>All-Atom：全原子体系；RFdiffusion：设计</td></tr>
+              <tr data-note="AF2 代码开源、AF3 未开放训练代码；RoseTTAFold 系列代码与服务器均开放，便于二次开发与教学复现。"><td>开放程度</td><td>AF2 开源；AF3 未开放代码</td><td>代码与服务器开放，便于二次开发</td></tr>
             </tbody>
           </table>
         </div>
-        <p style="margin-top:14px">浜岃€呭苟闈炴浛浠ｅ叧绯伙細AlphaFold 绯诲垪浠ョ簿搴︿笌瑕嗙洊闈㈠彇鑳滐紝RoseTTAFold 绯诲垪浠ヤ綆闂ㄦ涓庡彲鏀归€犳€ц闀匡紱鍦ㄦ柟娉曞涓婏紝浜岃€呭叡浜?MSA銆佹敞鎰忓姏涓庣鍒扮璁粌涓夐」鍩虹<sup class="cite">[7,8,9]</sup>銆?/p>
+        <p style="margin-top:14px">二者并非替代关系：AlphaFold 系列以精度与覆盖面取胜，RoseTTAFold 系列以低门槛与可改造性见长；在方法学上，二者共享 MSA、注意力与端到端训练三项基础<sup class="cite">[7,8,9]</sup>。</p>
       </section>
 
       <div class="pager">
-        <a href="ch2.html"><small>涓婁竴绔?/small><b>鈫?AlphaFold</b></a>
-        <a class="next" href="ch4.html"><small>涓嬩竴绔?/small><b>鏈潵涓庡弽鎬?鈫?/b></a>
+        <a href="ch2.html"><small>上一章</small><b>← AlphaFold</b></a>
+        <a class="next" href="ch4.html"><small>下一章</small><b>未来与反思 →</b></a>
       </div>
     </article>
 
     <aside class="rail">
-      <h5>鏈珷鐩綍</h5>
-      <a href="#s31">3.1銆€鍘熺悊</a>
-      <a href="#s32">3.2銆€鍙戝睍</a>
-      <a href="#s33">3.3銆€搴旂敤</a>
-      <a href="#s34">3.4銆€鎶€鏈鐓?/a>
-      <h5 style="margin-top:22px">鍏朵粬绔犺妭</h5>
-      <a href="ch1.html">01銆€缁撴瀯鍩虹</a>
-      <a href="ch2.html">02銆€AlphaFold</a>
-      <a href="ch4.html">04銆€鏈潵涓庡弽鎬?/a>
-      <a href="references.html">鍙傝€冩枃鐚?/a>
-      <a href="quiz.html">鑷祴</a>
+      <h5>本章目录</h5>
+      <a href="#s31">3.1　原理</a>
+      <a href="#s32">3.2　发展</a>
+      <a href="#s33">3.3　应用</a>
+      <a href="#s34">3.4　技术对照</a>
+      <h5 style="margin-top:22px">其他章节</h5>
+      <a href="ch1.html">01　结构基础</a>
+      <a href="ch2.html">02　AlphaFold</a>
+      <a href="ch4.html">04　未来与反思</a>
+      <a href="references.html">参考文献</a>
+      <a href="quiz.html">自测</a>
     </aside>
   </div>
 </main>
 
 <footer class="site">
   <div class="in">
-    <span>銆夾I 涓庤泲鐧借川缁撴瀯鈥斺€擜lphaFold 鍜?RoseTTAFold銆嬭绋嬫姤鍛婃敼缂?/span>
-    <span>鍥捐〃寮曡嚜鍏紑鏂囩尞锛屽嚭澶勮鍥炬敞 路 <a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">绔欑偣婧愮爜</a></span>
+    <span>《AI 与蛋白质结构——AlphaFold 和 RoseTTAFold》课程报告改编</span>
+    <span>图表引自公开文献，出处见图注 · <a href="https://github.com/Heptagon18/heptagon18.github.io" target="_blank" rel="noopener">站点源码</a></span>
   </div>
 </footer>
 <script src="assets/js/core.js?v=2026110601"></script>
@@ -281,6 +284,6 @@
 <script src="assets/js/cite.js?v=2026110601"></script>
 <script src="assets/js/interact2.js?v=2026110601"></script>
 <script src="assets/js/rfd.js?v=2026110701"></script>
-<button id="fab" aria-label="鍥炲埌椤堕儴">鈫?/button>
+<button id="fab" aria-label="回到顶部">↑</button>
 </body>
 </html>

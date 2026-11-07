@@ -1,0 +1,40 @@
+/* ===== 全站版式均衡（覆盖 site.css 的默认 start） ===== */
+.grid2 { align-items: stretch; }
+.grid2.narrow { align-items: stretch; }
+.grid3 { align-items: stretch; }
+
+/* 卡片/提示框在并排时等高 */
+.grid2 > .card,
+.grid2 > .reveal > .card,
+.grid2 > .note,
+.grid2 > .verdict,
+.grid2 > .takeaway { height: 100%; }
+
+/* 同排卡片（grid3）等高 */
+.grid3 > .card { height: 100%; }
+
+/* 图片与文字并排：图片垂直居中，不拉伸 */
+.grid2 > figure { align-self: center; margin-top: 0; }
+.grid2 > figure > .frame { background: #fbfcfe; }
+.grid2 > figure img { display: block; }
+
+/* 需要整体居中的两栏（如 2.1） */
+.grid2.center { align-items: center; }
+.grid2.center > figure { align-self: center; }
+
+/* 两图并排：统一图框高度，只按高度等比缩放 */
+.grid2.frame-eq > figure .frame {
+  display: flex; align-items: center; justify-content: center;
+  height: 340px; padding: 8px;
+}
+.grid2.frame-eq > figure .frame img {
+  max-height: 100%; width: auto; max-width: 100%; object-fit: contain;
+}
+
+/* 两栏里较长的一侧不再上下留白突兀 */
+.grid2 > .reveal { min-width: 0; }
+
+@media (max-width: 860px) {
+  .grid2.frame-eq > figure .frame { height: 250px; }
+  .grid2 > figure { align-self: stretch; }
+}
