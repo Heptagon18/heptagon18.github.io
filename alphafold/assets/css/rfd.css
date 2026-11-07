@@ -63,3 +63,9 @@
   .dn-stages{grid-template-columns:1fr 1fr}
   .aa-svg{max-width:100%}
 }
+
+/* mobile fig cap */
+@media (max-width:640px){
+  #s32 figure .frame{height:auto;max-height:400px;overflow:hidden}
+  #s32 figure .frame img{max-height:400px;width:auto;max-width:100%;margin:0 auto;object-fit:contain}
+}
