@@ -450,6 +450,11 @@ function shuffle(arr) {
       if (ok) score++;
     });
     const pct = Math.round(score / current.length * 100);
+    try {
+      const hist = JSON.parse(localStorage.getItem('af-quiz') || '[]');
+      hist.unshift({ score: score, total: current.length, t: Date.now() });
+      localStorage.setItem('af-quiz', JSON.stringify(hist.slice(0, 8)));
+    } catch (e) {}
     scoreEl.textContent = '得分：' + score + ' / ' + current.length;
     document.getElementById('qProg').style.width = '100%';
     card.classList.add('show');

@@ -94,6 +94,7 @@ const INDEX = [
   ['ch4.html', '4.3 未来方向', 's43', '从头设计、动态构象、摆脱 MSA、AI 与实验闭环、可及性'],
   ['ch4.html', '4.4 科学与社会', 's44', '开放与可重复、学术与产业、双重用途与生物安全、教育与普及'],
   ['references.html', '参考文献', 'refs', '徐甲强、郭贝一、孙雨楠、张弘、宫维斌、车禹萱、朱吕帅、Jumper、Baek、Abramson、Krishna、Watson、Lin'],
+  ['me.html', '我的学习', 'me progress marks', '阅读进度、收藏小节与自测记录'],
   ['quiz.html', '自测题', 'quiz', 'CASP14 数字、三轨、RFdiffusion、pLDDT 判读、ESMFold']
 ];
 

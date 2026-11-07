@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的学习 · AI 与蛋白质结构</title>
+<meta name="description" content="阅读进度、收藏小节与自测记录的本地汇总页。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23002060'/><circle cx='32' cy='32' r='15' fill='none' stroke='%23fff' stroke-width='4' stroke-dasharray='70 30'/></svg>">
+<meta name="theme-color" content="#002060">
+<link rel="stylesheet" href="assets/css/site.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/extra.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/cite.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/interact2.css?v=2026110601">
+<link rel="stylesheet" href="assets/css/layout.css?v=2026110701">
+<link rel="stylesheet" href="assets/css/ux.css?v=2026110713">
+</head>
+<body>
+<div id="progress"></div>
+<header class="top">
+  <div class="bar">
+    <a class="logo" href="index.html"><i></i><span>AI 与蛋白质结构<small>ALPHAFOLD · ROSETTAFOLD</small></span></a>
+    <nav class="main">
+      <a href="ch1.html">结构基础</a>
+      <a href="ch2.html">AlphaFold</a>
+      <a href="ch3.html">RoseTTAFold</a>
+      <a href="ch4.html">未来与反思</a>
+      <a href="resources.html">资源</a>
+      <a href="references.html">文献</a>
+      <a href="quiz.html">自测</a>
+      <a href="me.html" class="on">我的</a>
+    </nav>
+    <button id="menuBtn" aria-label="展开目录" aria-expanded="false">☰</button>
+    <span class="pct" id="pct">0%</span>
+    <div class="searchwrap">
+      <input id="q" type="search" placeholder="搜索：CASP / pLDDT / RFdiffusion" aria-label="站内搜索">
+      <div id="hits"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="crumb"><a href="index.html">首页</a> / 我的学习</div>
+  <div class="page-head">
+    <div class="kicker">MY STUDY</div>
+    <h1>我的学习</h1>
+    <p>本页数据只保存在当前浏览器（localStorage），不上传服务器。换设备或清理浏览器数据后会重新开始。</p>
+  </div>
+
+  <div class="me-grid">
+    <section class="me-card">
+      <h3>阅读进度</h3>
+      <ul id="meProgress"><li class="me-empty">还没有阅读记录，先去读一章吧。</li></ul>
+    </section>
+    <section class="me-card">
+      <h3>收藏的小节</h3>
+      <ul id="meMarks"><li class="me-empty">在任意小节标题右侧点 ☆ 即可收藏。</li></ul>
+    </section>
+    <section class="me-card">
+      <h3>自测记录</h3>
+      <ul id="meQuiz"><li class="me-empty">还没有自测记录。</li></ul>
+    </section>
+    <section class="me-card">
+      <h3>使用说明</h3>
+      <ul>
+        <li><span>深浅色</span><a href="#" id="meTheme">切换主题</a></li>
+        <li><span>快捷键</span><a href="#" id="meKeys">查看（?）</a></li>
+        <li><span>打印本页</span><a href="#" id="mePrint">打印</a></li>
+        <li><span>清空本地记录</span><a href="#" id="meClear">清空</a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="site">
+  <span>《AI 与蛋白质结构——AlphaFold 与 RoseTTAFold》课程报告改编</span>
+  <span>数据仅存本地 · <a href="references.html">文献</a></span>
+</footer>
+
+<script src="assets/js/core.js?v=2026110601"></script>
+<script src="assets/js/ux.js?v=2026110713"></script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  function fmtDate(t) {
+    const d = new Date(t);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  // 阅读进度
+  let prog = {};
+  try { prog = JSON.parse(localStorage.getItem('af-progress') || '{}'); } catch (e) { prog = {}; }
+  const rows = Object.entries(prog).sort((a, b) => b[1].t - a[1].t);
+  if (rows.length) {
+    $('meProgress').innerHTML = rows.map(([path, r]) => {
+      const pct = Math.max(0, Math.min(100, r.pct || 0));
+      return '<li><a href="' + esc(path) + '">' + esc(r.title || path) + '</a>' +
+        '<span style="display:flex;align-items:center;gap:8px;color:var(--muted)">' + pct + '%' +
+        '<span class="me-bar"><i style="width:' + pct + '%"></i></span></span></li>';
+    }).join('');
+  }
+
+  // 收藏
+  let marks = [];
+  try { marks = JSON.parse(localStorage.getItem('af-marks') || '[]'); } catch (e) { marks = []; }
+  if (marks.length) {
+    $('meMarks').innerHTML = marks.sort((a, b) => b.t - a.t).map(m =>
+      '<li><a href="' + esc(m.page) + '#' + esc(m.id) + '">' + esc(m.title) + '</a>' +
+      '<span style="color:var(--muted)">' + fmtDate(m.t) + '</span></li>').join('');
+  }
+
+  // 自测
+  let quiz = [];
+  try { quiz = JSON.parse(localStorage.getItem('af-quiz') || '[]'); } catch (e) { quiz = []; }
+  if (quiz.length) {
+    $('meQuiz').innerHTML = quiz.map(q =>
+      '<li><span>' + fmtDate(q.t) + '</span><span>' + q.score + ' / ' + q.total +
+      '（' + Math.round(q.score / q.total * 100) + '%）</span></li>').join('');
+  }
+
+  $('meTheme').addEventListener('click', e => { e.preventDefault(); document.querySelector('.theme-btn').click(); });
+  $('meKeys').addEventListener('click', e => {
+    e.preventDefault();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: '?' }));
+  });
+  $('mePrint').addEventListener('click', e => { e.preventDefault(); window.print(); });
+  $('meClear').addEventListener('click', e => {
+    e.preventDefault();
+    if (!confirm('确定清空本地的阅读进度、收藏与自测记录？')) return;
+    ['af-progress', 'af-marks', 'af-quiz'].forEach(k => localStorage.removeItem(k));
+    location.reload();
+  });
+})();
+</script>
+</body>
+</html>

@@ -189,3 +189,96 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
+/* ============ 移动端目录抽屉 + 小节收藏 ============ */
+(function () {
+  const LS_MARKS = 'af-marks';
+
+  function loadMarks() {
+    try { return JSON.parse(localStorage.getItem(LS_MARKS) || '[]'); } catch (e) { return []; }
+  }
+  function saveMarks(list) {
+    try { localStorage.setItem(LS_MARKS, JSON.stringify(list)); } catch (e) {}
+  }
+  function toast(msg) {
+    let t = document.getElementById('toast');
+    if (!t) { t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1600);
+  }
+
+  function h2Title(h) {
+    const num = h.querySelector('.num');
+    const clone = h.cloneNode(true);
+    clone.querySelectorAll('.num,.anchor-link,.mark-btn').forEach(x => x.remove());
+    const txt = clone.textContent.replace(/\s+/g, ' ').trim();
+    return (num ? num.textContent.trim() + ' ' : '') + txt;
+  }
+
+  function initToc() {
+    const secs = [...document.querySelectorAll('main section.sec[id]')];
+    if (secs.length < 2) return;
+    const btn = document.createElement('button');
+    btn.className = 'toc-fab';
+    btn.type = 'button';
+    btn.innerHTML = '<span>☰</span>目录';
+    btn.setAttribute('aria-label', '打开本页目录');
+    document.body.appendChild(btn);
+
+    const sheet = document.createElement('div');
+    sheet.className = 'toc-sheet';
+    sheet.innerHTML = '<div class="toc-inner"><div class="toc-head"><b>本页目录</b><button class="toc-x" aria-label="关闭">✕</button></div><ul>' +
+      secs.map(s => {
+        const h = s.querySelector('h2');
+        const txt = h ? h2Title(h) : s.id;
+        return '<li><a href="#' + s.id + '">' + txt + '</a></li>';
+      }).join('') + '</ul></div>';
+    document.body.appendChild(sheet);
+
+    btn.addEventListener('click', () => sheet.classList.add('show'));
+    sheet.addEventListener('click', e => {
+      if (e.target === sheet || e.target.classList.contains('toc-x') || e.target.tagName === 'A') {
+        sheet.classList.remove('show');
+      }
+    });
+  }
+
+  function initMarks() {
+    const marks = loadMarks();
+    const page = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('main section.sec[id]').forEach(sec => {
+      const h = sec.querySelector('h2');
+      if (!h) return;
+      const key = page + '#' + sec.id;
+      const found = marks.find(m => m.key === key);
+      const b = document.createElement('button');
+      b.className = 'mark-btn';
+      b.type = 'button';
+      b.dataset.key = key;
+      b.dataset.title = h2Title(h);
+      b.textContent = found ? '★' : '☆';
+      b.title = found ? '取消收藏' : '收藏本节';
+      if (found) b.classList.add('on');
+      b.addEventListener('click', ev => {
+        ev.preventDefault();
+        const list = loadMarks();
+        const i = list.findIndex(m => m.key === key);
+        if (i >= 0) {
+          list.splice(i, 1);
+          b.textContent = '☆'; b.classList.remove('on'); b.title = '收藏本节';
+          toast('已取消收藏');
+        } else {
+          list.push({ key: key, title: b.dataset.title, page: page, id: sec.id, t: Date.now() });
+          b.textContent = '★'; b.classList.add('on'); b.title = '取消收藏';
+          toast('已加入收藏');
+        }
+        saveMarks(list);
+      });
+      h.appendChild(b);
+    });
+  }
+
+  function init() { initToc(); initMarks(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
