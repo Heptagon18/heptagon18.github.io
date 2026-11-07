@@ -49,8 +49,8 @@
 .aa-tab.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .aa-body{margin-top:12px}
 .aa-name{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:5px}
-.aa-body p{font-size:12.8px;color:var(--body);margin:0 0 10px;line-height:1.75}
-.aa-svg{width:100%;height:auto;display:block;max-width:620px;margin:4px auto}
+.aa-body p{font-size:12.8px;color:var(--body);margin:0 0 4px;line-height:1.75}
+.aa-svg{width:100%;height:auto;display:block;margin:6px 0 2px}
 .aa-filter{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:12px;color:var(--muted)}
 .aa-chip{
   border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 11px;font-family:inherit;

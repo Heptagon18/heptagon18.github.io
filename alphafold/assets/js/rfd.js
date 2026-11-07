@@ -106,17 +106,41 @@
     }
 
     function visual() {
-      // 简化图示：1D 一串方块；2D 方块之间连线；3D 附加立体楔形
       const cols = ['#2a86cf', '#117f86', '#c9801d', '#7a5cc4', '#b3403f'];
-      let s = '<svg viewBox="0 0 420 96" class="aa-svg">';
-      for (let i = 0; i < 9; i++) {
-        const x = 16 + i * 44, c = cols[i % cols.length];
+      const N = 12;
+      let s = '<svg viewBox="0 0 900 132" class="aa-svg" role="img" aria-label="全原子表示的层级示意">';
+      // 基线
+      if (rep >= 2) {
+        s += '<line x1="40" y1="64" x2="860" y2="64" stroke="#dbe5f1" stroke-width="2"/>';
+      }
+      for (let i = 0; i < N; i++) {
+        const x = 46 + i * ((820 - 46) / (N - 1));
+        const c = cols[i % cols.length];
+        // 1D：色块代表元素类型
+        s += '<rect x="' + (x - 13) + '" y="50" width="26" height="26" rx="7" fill="' + c + '" opacity="' +
+          (rep === 1 ? 1 : 0.9) + '"/>';
+        // 2D：化学键连线
         if (rep >= 2 && i > 0) {
-          s += '<line x1="' + (x - 26) + '" y1="48" x2="' + (x - 6) + '" y2="48" stroke="#c3d2e4" stroke-width="2"/>';
+          const xp = 46 + (i - 1) * ((820 - 46) / (N - 1));
+          s += '<line x1="' + (xp + 13) + '" y1="63" x2="' + (x - 13) + '" y2="63" stroke="#9db4cf" stroke-width="2.5"/>';
+          if (i % 3 === 0) {
+            s += '<line x1="' + (xp + 15) + '" y1="68" x2="' + (x - 15) + '" y2="68" stroke="#9db4cf" stroke-width="2.5"/>';
+          }
         }
-        s += '<rect x="' + x + '" y="38" width="20" height="20" rx="5" fill="' + c + '" opacity="' + (rep === 1 ? 1 : .82) + '"/>';
+        // 3D：手性楔形
         if (rep === 3) {
-          s += '<path d="M' + (x + 10) + ' 38 l0 -14 l10 7 z" fill="' + c + '" opacity=".55"/>';
+          s += '<path d="M' + x + ' 50 l-11 -13 l22 0 z" fill="' + c + '" opacity=".5"/>';
+          s += '<text x="' + x + '" y="104" font-size="9.5" fill="#8b9bb0" text-anchor="middle">' +
+            (i % 3 === 0 ? 'D' : (i % 3 === 1 ? 'L' : '·')) + '</text>';
+        }
+        // 元素标签
+        if (rep === 1) {
+          const el = ['C', 'N', 'O', 'S', 'C', 'N', 'O', 'C', 'N', 'O', 'S', 'C'][i];
+          s += '<text x="' + x + '" y="106" font-size="10" fill="#8b9bb0" text-anchor="middle">' + el + '</text>';
+        }
+        if (rep === 2) {
+          s += '<text x="' + x + '" y="106" font-size="9.5" fill="#9db4cf" text-anchor="middle">' +
+            (i % 3 === 0 ? '＝' : '—') + '</text>';
         }
       }
       s += '</svg>';
